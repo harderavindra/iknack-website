@@ -1,0 +1,482 @@
+/* ============================================================
+   Ported from the reference stylesheet — selectors/values kept
+   as given. `.home-page` plays the role of the reference's
+   `.area-container`. Site-wide resets (`*`, `body`, `html`) are
+   skipped since Tailwind's preflight already covers them.
+   ============================================================ */
+
+.home-page {
+  position: relative;
+  font-family: var(--font-poppins), "Poppins", Arial, sans-serif;
+  font-weight: 400;
+}
+
+a.spline-watermark {
+  display: none;
+}
+
+.hero-section::before {
+  background: linear-gradient(318deg, #000000 123px, transparent 300px);
+  content: "";
+  z-index: 10;
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  right: 0;
+  bottom: 0;
+}
+
+/* Hero */
+.hero-section {
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.hero-section iframe {
+  display: block;
+  border: 0;
+}
+
+/* Intro */
+.intro-section {
+  height: auto;
+  width: 100%;
+  position: relative;
+  z-index: 99;
+}
+
+.intro-content {
+  display: flex;
+  min-height: 230vh;
+  position: relative;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.intro-content .intro-text,
+.intro-content .intro-highlights {
+  width: 50vw;
+}
+
+.intro-content .intro-text {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  font-size: 36px;
+  font-weight: 300;
+  padding: 0 7rem 0 0;
+  display: flex;
+  align-items: center;
+}
+
+.intro-highlights ul {
+  font-size: 80px;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10vh;
+  margin-left: 5px;
+  padding-top: 40vh;
+}
+
+.intro-highlights li {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+}
+
+.intro-highlights span {
+  font-family: var(--font-reenie), "Segoe Print", "Bradley Hand", cursive;
+  font-size: 48px;
+  text-transform: lowercase;
+  font-weight: 400;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.word {
+  display: inline-block;
+  color: #fff;
+}
+
+/* Scroll-linked brand mark */
+.imoving-area {
+  height: 100vh;
+  width: 100vw;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.moving-shape-i {
+  height: 100vh;
+  width: 50vw;
+  display: flex;
+  gap: 10%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  flex-direction: column;
+  z-index: 100;
+  pointer-events: all;
+}
+
+.moving-shape-i .shape-top,
+.moving-shape-i .shape-bottom {
+  width: 100%;
+  background: linear-gradient(45deg, #29abe25c, transparent);
+  flex: 1;
+}
+
+.moving-shape-i .shape-top {
+  border-radius: 0 0 0 50vh;
+  background: linear-gradient(45deg, #29abe25c, transparent);
+}
+
+.moving-shape-i .shape-bottom {
+  border-radius: 50vh 0 0 0;
+}
+
+/* Story */
+.story-section {
+  height: 150vh;
+  width: 100%;
+  background: linear-gradient(208deg, rgba(8, 62, 71, 0.6) 16.6%, rgba(8, 62, 71, 0) 82.56%);
+}
+
+.story-section .story-content {
+  text-align: center;
+  font-size: 6rem;
+  position: sticky;
+  top: 0px;
+  padding-top: 20vh;
+  padding-bottom: 20vh;
+  font-family: var(--font-roboto), "Roboto", sans-serif;
+}
+
+.story-content .line-one span {
+  display: inline-block;
+}
+
+/* Services */
+.services-section video,
+.services-section img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.services-section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.services-section div.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.services-section div.slide:after {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.slide-1 {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.slide-2,
+.slide-3,
+.slide-4,
+.slide-5 {
+  opacity: 0;
+  transform: rotate(45deg);
+}
+
+.parent {
+  position: relative;
+  width: 1928px;
+  height: 1928px;
+  margin: 0px auto;
+  z-index: 99999;
+  transform: rotate(45deg);
+}
+
+.card-rotation {
+  position: absolute;
+  bottom: 0;
+  height: 400px;
+  width: 100%;
+  display: flex;
+  transform: translateY(70vh);
+  overflow: hidden;
+}
+
+.child {
+  position: absolute;
+  top: 0%;
+  left: calc(50% - 150px);
+  width: 300px;
+  height: 400px;
+  background: #ffffff00;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0px;
+  transform-origin: center;
+}
+
+.child video,
+.child img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  opacity: 1;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+}
+
+.c1 {
+  transform: rotate(0deg) translate(0) rotate(0deg);
+}
+.c2 {
+  transform: translate(378px, 102px) rotate(30deg);
+}
+.c3 {
+  transform: translate(655px, 381px) rotate(60deg);
+}
+.c4 {
+  transform: translate(756px, 761px) rotate(90deg);
+}
+.c5 {
+  transform: translate(655px, 1142px) rotate(120deg);
+}
+.c6 {
+  transform: translate(378px, 1421px) rotate(150deg);
+}
+.c7 {
+  transform: translate(0px, 1521.5px) rotate(180deg);
+}
+
+.services-section .child .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+}
+
+.services-section .child .content h2 {
+  font-size: 4rem;
+  text-align: center;
+  font-family: var(--font-roboto), "Roboto", sans-serif;
+  text-indent: 9px;
+  letter-spacing: 4px;
+  color: #ffffff;
+  position: relative;
+  white-space: nowrap;
+}
+
+.services-section .child .content h2 span {
+  position: absolute;
+  color: #000;
+  z-index: 2;
+  display: block;
+  top: 0;
+  text-shadow:
+    -2px -2px 0 #ffffff,
+    2px -2px 0 #ffffff,
+    -2px 2px 0 #ffffff,
+    2px 2px 0 #ffffff;
+  height: 50%;
+  overflow: hidden;
+}
+
+.current-1 .c1 video,
+.current-2 .c2 video,
+.current-3 .c3 video,
+.current-4 .c4 img,
+.current-5 .c5 img {
+  opacity: 0;
+}
+
+.current-1 .c1 .content,
+.current-2 .c2 .content,
+.current-3 .c3 .content,
+.current-4 .c4 .content,
+.current-5 .c5 .content {
+  opacity: 1;
+}
+
+.child .content,
+.child video {
+  transition: opacity 0.5s ease;
+}
+
+/* Why us */
+.why-us-content {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 100px 1.5rem;
+}
+
+.why-us-content h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #29aae2;
+  font-weight: 400;
+}
+
+.why-us-content h2 {
+  font-size: 42px;
+  color: #ffffff;
+  font-weight: 400;
+  margin-bottom: 80px;
+}
+
+.why-us-content .why-list {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+.why-us-content .why-list .why-item {
+  flex: 1;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #ffffff66;
+  background: #000000;
+  box-shadow: 0px -30px 30px #000000;
+}
+
+.why-us-content .why-list .why-item .number {
+  font-size: 124px;
+  min-width: 20%;
+  font-family: "Gideon Roman", serif;
+}
+
+.why-us-content .why-list .why-item h4 {
+  font-size: 42px;
+  margin-bottom: 10px;
+  color: #fff;
+  font-weight: 400;
+  min-width: 30%;
+}
+
+.why-us-content .why-list .why-item p {
+  font-size: 16px;
+  color: #fff;
+}
+
+.why-item:nth-child(1) { z-index: 1; }
+.why-item:nth-child(2) { z-index: 2; }
+.why-item:nth-child(3) { z-index: 3; }
+.why-item:nth-child(4) { z-index: 4; }
+.why-item:nth-child(5) { z-index: 5; }
+
+/* ============================================================
+   Added — not in the reference. The reference had no mobile
+   breakpoints; without them the fixed 1928px card wheel, 80px/
+   50vw intro columns, and 6rem story text overflow badly on
+   small screens. Scales things down without touching the
+   ported desktop values above.
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .imoving-area {
+    display: none;
+  }
+
+  .intro-content {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .intro-content .intro-text,
+  .intro-content .intro-highlights {
+    width: 100%;
+  }
+
+  .intro-content .intro-text {
+    position: static;
+    height: auto;
+    font-size: 22px;
+    padding: 4rem 0 2rem;
+  }
+
+  .intro-highlights ul {
+    font-size: 34px;
+    gap: 2rem;
+    padding: 0 0 4rem;
+  }
+
+  .intro-highlights span {
+    font-size: 22px;
+  }
+
+  .story-section {
+    height: auto;
+  }
+
+  .story-section .story-content {
+    position: static;
+    font-size: 2.5rem;
+    padding: 4rem 0;
+  }
+
+  .services-section .child .content h2 {
+    font-size: 1.75rem;
+  }
+
+  .parent {
+    transform: rotate(45deg) scale(0.32);
+    transform-origin: top left;
+  }
+
+  .why-us-content .why-list .why-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .why-us-content .why-list .why-item .number {
+    font-size: 64px;
+    min-width: 0;
+  }
+
+  .why-us-content .why-list .why-item h4 {
+    font-size: 28px;
+    min-width: 0;
+  }
+}
