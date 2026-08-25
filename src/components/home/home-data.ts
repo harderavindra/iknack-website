@@ -21,16 +21,19 @@ export const SLIDES: Slide[] = [
     id: "slide-1",
     type: "video",
     src: "/iknack-home-v-1.mp4",
+    poster: "/home-video-img-1.webp",
   },
   {
     id: "slide-2",
     type: "video",
     src: "/iknack-vid-2.mp4",
+    poster: "/home-video-img-2.webp",
   },
   {
     id: "slide-3",
     type: "video",
     src: "/final-4-mahindra-ganesha.mp4",
+    poster: "/home-video-img-3.webp",
   },
   {
     id: "slide-4",
@@ -58,8 +61,8 @@ export const SERVICE_CARDS: ServiceCard[] = [
     list: ["Brand Identity & Logo Design", "Campaign Creatives", "Print & OOH Designs", "Visual Systems & Guidelines"],
     media: {
       type: "video",
-      src: "http://emandee.in/wp-content/uploads/2026/08/Combine-Festival-Reel-1.mp4",
-      poster: "https://emandee.in/wp-content/uploads/2026/08/home-video-1-thumb.jpg",
+      src: "/iknack-home-v-1.mp4",
+      poster: "/home-video-img-1.webp",
     },
   },
   {
@@ -68,8 +71,8 @@ export const SERVICE_CARDS: ServiceCard[] = [
     list: ["Digital Brand Films", "Product AVs", "Testimonial Videos", "Corporate Videos"],
     media: {
       type: "video",
-      src: "http://emandee.in/wp-content/uploads/2026/08/Shivjayanti-Reel.mp4",
-      poster: "http://emandee.in/wp-content/uploads/2026/08/iknack-home-v2.png",
+      src: "/final-4-mahindra-ganesha.mp4",
+      poster: "/home-video-img-3.webp",
     },
   },
   {
@@ -79,6 +82,7 @@ export const SERVICE_CARDS: ServiceCard[] = [
     media: {
       type: "video",
       src: "/final-4-mahindra-ganesha.mp4",
+      poster: "/home-video-img-3.webp",
     },
   },
   {

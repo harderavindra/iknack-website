@@ -33,29 +33,6 @@ export default function HomeContent() {
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
-    const videos = root.querySelectorAll<HTMLVideoElement>("video[data-src]");
-    const loadVideo = (video: HTMLVideoElement) => {
-      if (video.dataset.loaded) return;
-      video.dataset.loaded = "true";
-      video.src = video.dataset.src ?? "";
-      video.load();
-    };
-    const videoObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const video = entry.target as HTMLVideoElement;
-          if (entry.isIntersecting) {
-            loadVideo(video);
-            video.play().catch(() => {});
-          } else {
-            video.pause();
-          }
-        });
-      },
-      { threshold: 0.25 }
-    );
-    videos.forEach((video) => videoObserver.observe(video));
-
     const ctx = gsap.context(() => {
       gsap.to(".shape-top", {
         background: "linear-gradient(45deg, #29ABE2, #29ABE2)",
@@ -159,8 +136,60 @@ export default function HomeContent() {
       });
 
       const parent = root.querySelector<HTMLDivElement>(".parent");
+
+      const slideVideos = new Map<number, HTMLVideoElement>();
+      const cardVideos = new Map<number, HTMLVideoElement>();
+      [1, 2, 3, 4, 5].forEach((n) => {
+        const sv = root.querySelector<HTMLVideoElement>(`.slide-${n} video`);
+        if (sv) slideVideos.set(n, sv);
+        const cv = root.querySelector<HTMLVideoElement>(`.c${n} video`);
+        if (cv) cardVideos.set(n, cv);
+      });
+
+      const loadVideo = (video: HTMLVideoElement) => {
+        if (video.dataset.loaded) return;
+        video.dataset.loaded = "true";
+        video.src = video.dataset.src ?? "";
+        video.load();
+      };
+
+      let activeIndex = 1;
+      let activeSlideVideo: HTMLVideoElement | null = null;
+      let sectionActive = false;
+
+      const activateSlide = (n: number) => {
+        const next = slideVideos.get(n) ?? null;
+        if (activeSlideVideo && activeSlideVideo !== next) activeSlideVideo.pause();
+        activeSlideVideo = next;
+        const cardNext = cardVideos.get(n);
+        if (cardNext) loadVideo(cardNext);
+        if (next && sectionActive) {
+          loadVideo(next);
+          next.play().catch(() => {});
+        }
+      };
+
+      const unloadAllVideos = () => {
+        sectionActive = false;
+        activeSlideVideo?.pause();
+        activeSlideVideo = null;
+        [...slideVideos.values(), ...cardVideos.values()].forEach((video) => {
+          video.pause();
+          video.removeAttribute("src");
+          video.load();
+          delete video.dataset.loaded;
+        });
+      };
+
       const setCurrent = (n: number) => {
+        activeIndex = n;
         if (parent) parent.className = `parent current-${n}`;
+        activateSlide(n);
+      };
+
+      const activateCurrent = () => {
+        sectionActive = true;
+        activateSlide(activeIndex);
       };
 
       const tl = gsap.timeline({
@@ -170,6 +199,10 @@ export default function HomeContent() {
           end: "+=400%",
           scrub: 1,
           pin: true,
+          onEnter: activateCurrent,
+          onEnterBack: activateCurrent,
+          onLeave: unloadAllVideos,
+          onLeaveBack: unloadAllVideos,
         },
       });
 
@@ -209,7 +242,6 @@ export default function HomeContent() {
 
     return () => {
       ctx.revert();
-      videoObserver.disconnect();
       gsap.ticker.remove(raf);
       unsubscribeScroll();
       lenis.destroy();
@@ -290,7 +322,7 @@ export default function HomeContent() {
         {SLIDES.map((slide) => (
           <div key={slide.id} className={`${slide.id} slide`}>
             {slide.type === "video" ? (
-              <video data-src={slide.src} loop muted playsInline preload="metadata" poster={slide.poster} />
+              <video data-src={slide.src} loop muted playsInline preload="none" poster={slide.poster} />
             ) : (
               <Image src={slide.src} alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
             )}
@@ -324,7 +356,7 @@ export default function HomeContent() {
                     loop
                     muted
                     playsInline
-                    preload="metadata"
+                    preload="none"
                     poster={card.media.poster}
                   />
                 ) : (

@@ -231,7 +231,6 @@ a.spline-watermark {
   height: 400px;
   width: 100%;
   display: flex;
-  transform: translateY(70vh);
   overflow: hidden;
 }
 
