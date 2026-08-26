@@ -136,6 +136,7 @@ export default function HomeContent() {
       });
 
       const parent = root.querySelector<HTMLDivElement>(".parent");
+      if (parent) gsap.set(parent, { rotate: 0 });
 
       const slideVideos = new Map<number, HTMLVideoElement>();
       const cardVideos = new Map<number, HTMLVideoElement>();
@@ -206,22 +207,39 @@ export default function HomeContent() {
         },
       });
 
-      tl.call(() => setCurrent(1))
+      tl.addLabel("s1")
         .to({}, { duration: 0.01 })
         .to(".slide-2", { opacity: 1, rotate: 0, duration: 0.01 })
-        .call(() => setCurrent(2))
-        .to(".parent", { rotate: -30, duration: 0.01 }, "<")
+        .addLabel("s2")
+        .to(".parent", { rotate: -30, duration: 0.01 }, "s2")
         .to({}, { duration: 0.01 })
         .to(".slide-3", { opacity: 1, rotate: 0, duration: 0.01 })
-        .call(() => setCurrent(3))
-        .to(".parent", { rotate: -60, duration: 0.01 }, "<")
+        .addLabel("s3")
+        .to(".parent", { rotate: -60, duration: 0.01 }, "s3")
         .to({}, { duration: 0.01 })
         .to(".slide-4", { opacity: 1, rotate: 0, duration: 0.01 })
-        .call(() => setCurrent(4))
-        .to(".parent", { rotate: -90, duration: 0.01 }, "<")
+        .addLabel("s4")
+        .to(".parent", { rotate: -90, duration: 0.01 }, "s4")
         .to({}, { duration: 0.01 })
-        .call(() => setCurrent(5))
-        .to(".parent", { rotate: -120, duration: 0.01 }, "<");
+        .to(".slide-5", { opacity: 1, rotate: 0, duration: 0.01 })
+        .addLabel("s5")
+        .to(".parent", { rotate: -120, duration: 0.01 }, "s5");
+
+      // `.call()` side effects only fire when the scrub moves forward past them, so a
+      // backward scroll would leave `current-N` stuck ahead of the actual visual state.
+      // Deriving the active step from the timeline's own position on every update
+      // (regardless of direction) keeps it correct scrolling either way.
+      const STEP_LABELS = ["s1", "s2", "s3", "s4", "s5"];
+      tl.eventCallback("onUpdate", () => {
+        const t = tl.time();
+        let idx = 1;
+        for (let i = 0; i < STEP_LABELS.length; i++) {
+          const labelTime = tl.labels[STEP_LABELS[i]];
+          if (labelTime !== undefined && t >= labelTime - 1e-6) idx = i + 1;
+        }
+        if (idx !== activeIndex) setCurrent(idx);
+      });
+      setCurrent(1);
 
       gsap.utils.toArray<HTMLElement>(".why-item").forEach((item) => {
         gsap.to(item, {
@@ -321,6 +339,8 @@ export default function HomeContent() {
       <div className="services-section">
         {SLIDES.map((slide) => (
           <div key={slide.id} className={`${slide.id} slide`}>
+            1
+            
             {slide.type === "video" ? (
               <video data-src={slide.src} loop muted playsInline preload="none" poster={slide.poster} />
             ) : (

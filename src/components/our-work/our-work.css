@@ -1,0 +1,319 @@
+.hero-video-section {
+  position: relative;
+  height: 100vh;
+  background: #000;
+}
+.hero-video-overlay h1{
+      max-width: 880px;
+    position: absolute;
+    inset-block-start: 300px;
+    font-family: "Poppins";
+    font-weight: 700;
+    font-size: 48px;
+    color: #fff;
+    text-align: center;
+    text-transform: none; 
+    top: 200px;
+}
+.hero-video-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-video {
+  position: relative;
+  display: block;
+  margin: auto;
+  width: 60vw;
+  height: 40vh;
+  border-radius: 30px;
+  object-fit: cover;
+  transform-origin: center center;
+  will-change: transform, width, height, border-radius;
+}
+
+.hero-video-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.work-category {
+  padding: 3rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.work-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+  .work-category-header {
+    padding: 0 2rem;
+  }
+}
+
+.work-category-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.work-category-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.work-category-nav button {
+  display: flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.work-category-nav button:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.work-category-track {
+  margin-top: 1.5rem;
+  padding: 0 1rem 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .work-category-track {
+    padding: 0 2rem 0.5rem;
+  }
+}
+
+.work-category-track .swiper-slide {
+  width: min(78vw, 320px);
+  height: auto;
+}
+
+
+/* Swiper positions each .swiper-slide via its own inline transform, so the
+   active-state scale is applied to a child wrapper instead — an inline
+   style always wins the cascade over a class rule for the same property,
+   which would silently swallow a scale set directly on .swiper-slide. */
+.work-category-item-inner {
+  transition: transform 0.3s ease;
+}
+
+.work-category-track .swiper-slide-active .work-category-item-inner {
+
+}
+.swiper-slide.swiper-slide-active {
+    width: 400px;
+}
+.swiper-wrapper {
+
+    gap: 20px;
+}
+
+.work-category-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.work-category-thumb:hover {
+  opacity: 0.85;
+}
+
+.work-thumb-shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, #171717 25%, #262626 37%, #171717 63%);
+  background-size: 400% 100%;
+  animation: work-thumb-shimmer 1.4s ease infinite;
+  transition: opacity 0.3s ease;
+}
+
+.work-thumb-shimmer-hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes work-thumb-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.work-thumb-img {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.work-thumb-img-loaded {
+  opacity: 1;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.92);
+  padding: 3rem 4rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.lightbox.lightbox-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.25s ease, visibility 0s linear 0s;
+}
+
+.lightbox-stage {
+  position: relative;
+  width: 90vw;
+  height: 85vh;
+  max-width: 1400px;
+}
+
+.lightbox-image-wrap {
+  position: absolute;
+  inset: 0;
+  animation: lightbox-image-in 0.35s ease;
+}
+
+@keyframes lightbox-image-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.lightbox-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: -1.25rem 0 0 -1.25rem;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #38bdf8;
+  border-radius: 999px;
+  animation: lightbox-spin 0.8s linear infinite;
+}
+
+@keyframes lightbox-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  height: 2.75rem;
+  width: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.lightbox-close:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  height: 3rem;
+  width: 3rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  z-index: 1;
+}
+
+.lightbox-nav:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.lightbox-prev {
+  left: 1rem;
+}
+
+.lightbox-next {
+  right: 1rem;
+}
+
+.lightbox-caption {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 768px) {
+  .lightbox {
+    padding: 4rem 1rem;
+  }
+
+  .lightbox-nav {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+}
