@@ -12,8 +12,8 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-4 z-50 px-4 md:px-8">
-      <div className="mx-auto flex max-w-6xl items-center justify-between rounded-3xl border border-white/10 bg-neutral-950/90 px-6 py-4 shadow-lg shadow-black/40 backdrop-blur">
+    <header className="sticky top-4 z-1000 px-4 md:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between rounded-3xl  border-white/10 bg-neutral-950/70 px-6 py-4 shadow-lg shadow-black/40 backdrop-blur">
         <Logo />
 
         <nav className="hidden items-center gap-8 md:flex">

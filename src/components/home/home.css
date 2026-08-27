@@ -115,7 +115,7 @@ a.spline-watermark {
   position: sticky;
   top: 0;
   z-index: 100;
-  pointer-events: none;
+  pointer-events: all;
 }
 
 .moving-shape-i {
@@ -324,8 +324,12 @@ a.spline-watermark {
 .current-1 .c1 video,
 .current-2 .c2 video,
 .current-3 .c3 video,
+.current-4 .c4 video,
+.current-5 .c5 video,.current-1 .c1 img,
+.current-2 .c2 img,
+.current-3 .c3 img,
 .current-4 .c4 img,
-.current-5 .c5 img {
+.current-5 .c5 img  {
   opacity: 0;
 }
 

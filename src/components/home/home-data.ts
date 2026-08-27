@@ -37,8 +37,9 @@ export const SLIDES: Slide[] = [
   },
   {
     id: "slide-4",
-    type: "image",
-    src: "/video4.webp",
+    type: "video",
+    src: "/iknack-home-v-4.mp4",
+    poster: "/home-video-img-4.webp",
   },
   {
     id: "slide-5",
@@ -71,8 +72,8 @@ export const SERVICE_CARDS: ServiceCard[] = [
     list: ["Digital Brand Films", "Product AVs", "Testimonial Videos", "Corporate Videos"],
     media: {
       type: "video",
-      src: "/final-4-mahindra-ganesha.mp4",
-      poster: "/home-video-img-3.webp",
+       src: "/iknack-vid-2.mp4",
+    poster: "/home-video-img-2.webp",
     },
   },
   {
@@ -89,7 +90,11 @@ export const SERVICE_CARDS: ServiceCard[] = [
     id: "c4",
     heading: ["Design", "Solutions"],
     list: ["UI & Digital Design", "Packaging Design", "Print Collateral", "Design Systems"],
-    media: { type: "image", src: "/video4.webp" },
+     media: {
+      type: "video",
+      src: "/iknack-home-v-4.mp4",
+      poster: "/home-video-img-4.webp",
+    },
   },
   {
     id: "c5",
