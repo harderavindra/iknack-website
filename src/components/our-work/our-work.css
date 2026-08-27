@@ -7,7 +7,7 @@
       max-width: 880px;
     position: absolute;
     inset-block-start: 300px;
-    font-family: "Poppins";
+    font-family: var(--font-poppins), "Poppins", sans-serif;
     font-weight: 700;
     font-size: 48px;
     color: #fff;

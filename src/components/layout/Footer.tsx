@@ -27,7 +27,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/10 bg-black px-4 pt-14 pb-6 md:px-8">
+    <footer className=" bg-neutral-900/90 px-4 pt-14 pb-6 md:px-8">
       <div className="mx-auto grid max-w-6xl gap-10 sm:grid-cols-3">
         <div>
           <h3 className="text-sm font-semibold tracking-wide text-sky-400">Address</h3>
@@ -65,9 +65,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-12 max-w-6xl">
+      {/* <div className="mx-auto mt-12 max-w-6xl">
         <Logo />
-      </div>
+      </div> */}
 
       <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-4 border-t border-white/10 pt-6 text-xs text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
         <nav className="flex flex-wrap gap-x-6 gap-y-2">

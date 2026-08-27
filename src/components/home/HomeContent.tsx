@@ -5,11 +5,10 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-import { Poppins, Roboto, Reenie_Beanie } from "next/font/google";
+import { Roboto, Reenie_Beanie } from "next/font/google";
 import "./home.css";
 import { INTRO_TEXT, INTRO_HIGHLIGHTS, SLIDES, SERVICE_CARDS, WHY_US_HOME } from "./home-data";
 
-const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "800"], variable: "--font-poppins" });
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-roboto" });
 const reenieBeanie = Reenie_Beanie({ subsets: ["latin"], weight: "400", variable: "--font-reenie" });
 
@@ -268,7 +267,7 @@ export default function HomeContent() {
 
   return (
     <div
-      className={`home-page ${poppins.variable} ${roboto.variable} ${reenieBeanie.variable}`}
+      className={`home-page ${roboto.variable} ${reenieBeanie.variable}`}
       ref={containerRef}
     >
       <div className="imoving-area">
