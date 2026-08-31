@@ -1,20 +1,20 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, type ReactNode } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import LightboxImage from "./LightboxImage";
-import type { WorkImage } from "./our-work-data";
 
-export default function Lightbox({
-  images,
+export default function Lightbox<T>({
+  items,
   index,
   onClose,
   onNavigate,
+  renderItem,
 }: {
-  images: WorkImage[];
+  items: T[];
   index: number | null;
   onClose: () => void;
   onNavigate: (dir: 1 | -1) => void;
+  renderItem: (item: T) => ReactNode;
 }) {
   const isOpen = index !== null;
 
@@ -46,7 +46,7 @@ export default function Lightbox({
 
   if (renderIndex === null) return null;
 
-  const image = images[renderIndex];
+  const item = items[renderIndex];
 
   return (
     <div
@@ -72,7 +72,7 @@ export default function Lightbox({
 
       <div className="lightbox-stage" onClick={(e) => e.stopPropagation()}>
         <div className="lightbox-image-wrap" key={renderIndex}>
-          <LightboxImage image={image} />
+          {renderItem(item)}
         </div>
       </div>
 
@@ -89,7 +89,7 @@ export default function Lightbox({
       </button>
 
       <p className="lightbox-caption">
-        {renderIndex + 1} / {images.length}
+        {renderIndex + 1} / {items.length}
       </p>
     </div>
   );

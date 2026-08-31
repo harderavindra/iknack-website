@@ -44,7 +44,7 @@ export const SLIDES: Slide[] = [
   {
     id: "slide-5",
     type: "image",
-    src: "/video5.webp",
+    src: "/mbull-features-posts.jpg",
   },
 ];
 
@@ -100,7 +100,7 @@ export const SERVICE_CARDS: ServiceCard[] = [
     id: "c5",
     heading: ["Social", "Media"],
     list: ["Social Media Strategy", "Content Creation", "Campaign Management", "Performance-driven Creative Assets"],
-    media: { type: "image", src: "/video5.webp" },
+    media: { type: "image", src: "/mbull-features-posts.jpg" },
   },
 ];
 
