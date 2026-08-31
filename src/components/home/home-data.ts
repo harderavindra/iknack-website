@@ -107,27 +107,27 @@ export const SERVICE_CARDS: ServiceCard[] = [
 export const WHY_US_HOME = [
   {
     number: "01",
-    title: "Experience",
-    text: "Years of hands-on industry expertise shape the way we think, create, and execute — delivering work that resonates and endures. Having partnered with brands across diverse sectors, we understand both creative nuance and business realities, enabling us to transform ideas into impactful, results-driven outcomes.",
+    title: "Experience That Adds Value",
+    text: "Years of hands-on expertise across industries shape thoughtful solutions and meaningful outcomes.",
   },
   {
     number: "02",
-    title: "Innovation",
-    text: "We are not just a creative agency; we are a hub of innovation. Our team thrives on pushing boundaries, exploring new technologies, and reimagining possibilities. We embrace change and continuously evolve our craft to stay ahead of industry trends.",
+    title: "Creativity With Purpose",
+    text: "Every idea is designed to strengthen brands, engage audiences and support business goals.",
   },
   {
     number: "03",
-    title: "Collaboration",
-    text: "We believe that the best work emerges from collaboration. We work closely with our clients, fostering open communication and a shared vision. By understanding your goals, challenges, and aspirations, we create a partnership that fuels creativity and drives success.",
+    title: "Integrated Approach",
+    text: "Strategy, design, content and production work together seamlessly from concept to delivery.",
   },
   {
     number: "04",
-    title: "Results-Driven Approach",
-    text: "We are committed to delivering measurable results that align with your business objectives. Our data-driven approach ensures that every campaign, strategy, and creative decision contributes to tangible growth and success.",
+    title: "Agile Execution",
+    text: "Focused teams, collaborative processes and efficient delivery create momentum at every stage.",
   },
   {
     number: "05",
-    title: "Passion for Excellence",
-    text: "At iKnack, we are passionate about excellence. We are dedicated to crafting work that not only meets but exceeds expectations. Our commitment to quality, creativity, and innovation drives us to deliver exceptional results that make a lasting impact.",
+    title: "Future-Ready Mindset",
+    text: "Creative thinking combined with emerging technologies opens new opportunities for brands to grow.",
   },
 ];

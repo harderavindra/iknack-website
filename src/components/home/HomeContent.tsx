@@ -401,7 +401,7 @@ export default function HomeContent() {
                 <div className="number">{item.number}</div>
                 <h4>{item.title}</h4>
                 <div className="info">
-                  <p>{item.text}</p>
+                  <p className="text-xl">{item.text}</p>
                 </div>
               </div>
             ))}

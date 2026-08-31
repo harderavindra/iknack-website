@@ -19,7 +19,7 @@ export default function ContactForm() {
 
   return (
     <div className="rounded-3xl bg-white p-8 text-neutral-900 md:p-12">
-      <h2 className="text-3xl font-semibold md:text-4xl">Start Your Project</h2>
+      <h2 className="text-3xl font-semibold md:text-4xl">Start the conversation</h2>
       <p className="mt-3 text-neutral-600">
         Fill in the details below and our team will get back to you promptly.
       </p>

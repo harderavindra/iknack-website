@@ -90,7 +90,7 @@ export default function AboutPage() {
 
           <div className="relative mt-10 aspect-[16/7]  rounded-3xl px-40">
               <h1 className="max-w-3xl text-2xl absolute -left-20  -top-10 font-semibold text-white md:text-5xl z-2 text-shadow-2xl text-shadow-black" style={{     "textShadow": "3px 4px black" }}>
-            We are a collective of creative thinkers and strategists
+            Building brands, stories and experiences 
           </h1>
             <Image
               src="/aboutus-hero-img.webp"
@@ -101,10 +101,8 @@ export default function AboutPage() {
               priority
             />
             <div className="pointer-events-none absolute -right-20 -bottom-15  p-6 md:p-8 " style={{     "textShadow": "3px 4px black" }}>
-              <p className="text-lg font-semibold text-white md:text-4xl">
-                Driven By A Shared Purpose
-                <br />
-                Connect, Inspire, And Grow.
+              <p className="text-lg font-semibold text-white md:text-6xl">
+               that people remember.
               </p>
             </div>
           </div>
@@ -114,8 +112,8 @@ export default function AboutPage() {
             text="Established in 2017, iKnack was founded with a clear vision — to create meaningful, high-impact brand experiences. What began as a focused creative initiative has evolved into a full-service creative and production agency, delivering integrated solutions across branding, films, digital, and AI-driven innovation."
           />
 
-          <div className="mt-12 flex flex-col items-start gap-6 md:flex-row md:items-center">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl md:w-72 md:shrink-0">
+          <div className="mt-12 flex flex-col items-start gap-20 md:flex-row md:items-center">
+            <div className="relative aspect-[4/2.6] w-full overflow-hidden rounded-2xl md:w-120 md:shrink-0">
               <Image
                 src="/about-us-img1.webp"
                 alt="iKnack team"
@@ -125,9 +123,9 @@ export default function AboutPage() {
               />
             </div>
             <p className="text-lg leading-relaxed text-neutral-300">
-              Today, we partner with forward-thinking brands to transform ideas into powerful
-              narratives — combining strategy, creativity, and execution to deliver work that
-              resonates and performs.
+             Founded in 2017, iKnack began with a simple belief: great ideas deserve exceptional execution. <br /><br />
+What started as a focused creative initiative has evolved into a full-service creative and production partner, helping brands communicate with clarity, creativity and confidence.<br /><br />
+Today, we combine branding, content, films, digital experiences and emerging AI technologies to create work that connects with people and drives meaningful results.
             </p>
           </div>
         </section>
@@ -135,6 +133,11 @@ export default function AboutPage() {
         {/* Leadership */}
         <section className="py-20 md:py-28">
           <h2 className="text-center text-3xl font-bold text-white md:text-4xl">Our Leadership</h2>
+          <p className="text-lg leading-relaxed text-neutral-300 max-w-4xl  mx-auto mb-20 mt-12 text-center">
+            A team of strategists, creatives, producers and problem solvers united by one goal, creating work that matters.
+            
+            Together, we bring diverse perspectives, collaborative thinking and a commitment to excellence that drives every project forward.
+          </p>
           <div className="mt-12 grid gap-6 sm:grid-cols-3">
             {LEADERSHIP.map((person) => (
               <div key={person.name} className="relative overflow-hidden rounded-2xl bg-neutral-900 flex items-center justify-center overflow-visible ">

@@ -46,11 +46,8 @@ export default function ServicesPage() {
         </div>
         <div className="flex h-full w-full items-center bg-black px-6 py-10 sm:px-10 lg:px-16">
           <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-            Integrated Creative
-            <br />
-            Services with
-            <br />
-            Seamless Execution.
+          Creative solutions <br/>crafted for impact.
+
           </h1>
         </div>
       </section>

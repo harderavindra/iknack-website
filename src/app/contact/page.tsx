@@ -35,14 +35,13 @@ export default function ContactPage() {
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
           <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
-            We&apos;re Your One Stop
-            <br />
-            Creative Solutions Partner
+           Let's create something meaningful. 
+
           </h1>
+       
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-neutral-300">
-            As your creative and production partner, we bring ideas to life — from strategy to
-            execution. Share your vision with us, and we&apos;ll help you craft impactful brand
-            experiences that deliver real results.
+            Whether you're building a new brand, launching a campaign, producing content or exploring innovative possibilities, we're ready to collaborate and create something exceptional together.
+
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-8 border-t border-white/10 pt-10 sm:grid-cols-3">
