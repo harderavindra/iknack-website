@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check } from "lucide-react";
+import { sendContactMessageAction } from "@/app/contact/actions";
 
 const ASSURANCES = [
   "Your information is secure and handled with strict confidentiality",
@@ -11,10 +12,22 @@ const ASSURANCES = [
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    setError(null);
+
+    const result = await sendContactMessageAction(new FormData(e.currentTarget));
+
+    setSubmitting(false);
+    if (result.ok) {
+      setSubmitted(true);
+    } else {
+      setError(result.error);
+    }
   };
 
   return (
@@ -62,12 +75,15 @@ export default function ContactForm() {
             className="w-full resize-y rounded-xl border border-neutral-300 px-4 py-3 text-neutral-800 placeholder:text-neutral-400 focus:border-sky-400 focus:outline-none"
           />
 
+          {error && <p className="text-sm font-medium text-red-600">{error}</p>}
+
           <div className="flex justify-end pt-2">
             <button
               type="submit"
-              className="rounded-full bg-sky-400 px-8 py-3 font-semibold text-white transition-colors hover:bg-sky-500"
+              disabled={submitting}
+              className="rounded-full bg-sky-400 px-8 py-3 font-semibold text-white transition-colors hover:bg-sky-500 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              SUBMIT
+              {submitting ? "SENDING…" : "SUBMIT"}
             </button>
           </div>
         </form>
