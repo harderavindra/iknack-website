@@ -46,16 +46,21 @@ export default function HomeContent() {
 
       const icon = root.querySelector<HTMLDivElement>(".moving-shape-i");
       if (icon) {
+        const getHighlightLeft = () => {
+          const highlight = root.querySelector(".intro-highlights li");
+          return highlight ? highlight.getBoundingClientRect().left : window.innerWidth / 2;
+        };
+
         gsap.to(icon, {
           width: "20px",
           height: "80px",
           boxShadow: "rgba(0, 0, 0, 0.9) 12px 0px 10px",
-          left: () => window.innerWidth / 2,
+          left: getHighlightLeft,
           top: () => window.innerHeight / 2 - 50,
           right: "auto",
           backgroundColor: "#000",
           ease: "none",
-          scrollTrigger: { trigger: ".hero-section", start: "top top", end: "50% top", scrub: 1 },
+          scrollTrigger: { trigger: ".hero-section", start: "top top", end: "50% top", scrub: 1, invalidateOnRefresh: true },
         });
       }
 
