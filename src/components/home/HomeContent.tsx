@@ -8,6 +8,7 @@ import Lenis from "lenis";
 import { Roboto, Reenie_Beanie } from "next/font/google";
 import "./home.css";
 import { INTRO_TEXT, INTRO_HIGHLIGHTS, SLIDES, SERVICE_CARDS, WHY_US_HOME } from "./home-data";
+import { createBurstAnimation } from "./burst-animation";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-roboto" });
 const reenieBeanie = Reenie_Beanie({ subsets: ["latin"], weight: "400", variable: "--font-reenie" });
@@ -26,7 +27,16 @@ export default function HomeContent() {
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 2,
     });
-    const unsubscribeScroll = lenis.on("scroll", () => ScrollTrigger.update());
+
+    const burstCanvas = root.querySelector<HTMLCanvasElement>("#burst");
+    const heroSection = root.querySelector<HTMLElement>(".hero-section");
+    const serviceLabels = SERVICE_CARDS.map((card) => card.heading.join(" "));
+    const burst = burstCanvas && heroSection ? createBurstAnimation(burstCanvas, heroSection, serviceLabels) : null;
+
+    const unsubscribeScroll = lenis.on("scroll", () => {
+      ScrollTrigger.update();
+      burst?.updateScrollZoom();
+    });
 
     const raf = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(raf);
@@ -267,6 +277,7 @@ export default function HomeContent() {
       gsap.ticker.remove(raf);
       unsubscribeScroll();
       lenis.destroy();
+      burst?.destroy();
     };
   }, []);
 
@@ -283,13 +294,7 @@ export default function HomeContent() {
       </div>
 
       <section className="hero-section">
-        <iframe
-          src="https://my.spline.design/discover-rWQ5KPWumj6brPtUawH5feSp/"
-          title="iKnack hero animation"
-          width="100%"
-          height="100%"
-          loading="lazy"
-        />
+        <canvas id="burst" aria-label="Animated iridescent burst. Move the pointer over it to tilt and spin it." />
       </section>
 
       <section className="intro-section">
