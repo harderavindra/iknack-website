@@ -69,7 +69,7 @@ type BuiltRibbon = { s: Streak; p0: Point; p1a: Point; p1b: Point; pa: Point; pb
 type Word = { text: string; a: number; s: Streak | null; lost: boolean };
 type RibbonPoint = { x: number; y: number; tx: number; ty: number; w: number };
 
-const DEFAULT_WORDS = ["Creative", "Video Production", "Photography", "Design", "Solutions", "Social Media", "Branding", "Campaigns", "Content Creation", "Strategy", "Innovation", "Collaboration"];
+const DEFAULT_WORDS = ["Creative", "Video Production", "Photography", "Design", "Solutions", "Social Media", "Branding", "Campaigns", "Content Creation", "Strategy", "Innovation"];
 
 export type BurstAnimation = {
   updateScrollZoom: () => void;
