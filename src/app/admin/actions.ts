@@ -50,6 +50,7 @@ export async function createCategoryAction(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/our-work-cms");
+  revalidatePath("/our-work");
   redirect("/admin");
 }
 
@@ -64,6 +65,7 @@ export async function updateCategoryAction(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/our-work-cms");
+  revalidatePath("/our-work");
   redirect("/admin");
 }
 
@@ -82,6 +84,7 @@ export async function deleteCategoryAction(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/our-work-cms");
+  revalidatePath("/our-work");
   redirect("/admin");
 }
 
@@ -90,6 +93,8 @@ export async function deleteCategoryAction(formData: FormData) {
 const imageItemSchema = z.object({
   categorySlug: z.string().min(1),
   alt: z.string().trim().min(1),
+  projectName: z.string().trim().optional(),
+  clientName: z.string().trim().optional(),
   thumbUrl: mediaUrl,
   fullUrl: mediaUrl,
 });
@@ -97,6 +102,8 @@ const imageItemSchema = z.object({
 const videoItemSchema = z.object({
   categorySlug: z.string().min(1),
   alt: z.string().trim().min(1),
+  projectName: z.string().trim().optional(),
+  clientName: z.string().trim().optional(),
   url: mediaUrl,
   posterUrl: mediaUrlOptional,
 });
@@ -115,6 +122,8 @@ export async function createItemAction(formData: FormData) {
     const parsed = imageItemSchema.parse({
       categorySlug,
       alt: formData.get("alt"),
+      projectName: formData.get("projectName"),
+      clientName: formData.get("clientName"),
       thumbUrl: formData.get("thumbUrl"),
       fullUrl: formData.get("fullUrl"),
     });
@@ -123,12 +132,16 @@ export async function createItemAction(formData: FormData) {
       type: "image",
       order,
       alt: parsed.alt,
+      projectName: parsed.projectName || undefined,
+      clientName: parsed.clientName || undefined,
       image: { thumbUrl: parsed.thumbUrl, fullUrl: parsed.fullUrl },
     });
   } else {
     const parsed = videoItemSchema.parse({
       categorySlug,
       alt: formData.get("alt"),
+      projectName: formData.get("projectName"),
+      clientName: formData.get("clientName"),
       url: formData.get("url"),
       posterUrl: formData.get("posterUrl"),
     });
@@ -137,12 +150,15 @@ export async function createItemAction(formData: FormData) {
       type: "video",
       order,
       alt: parsed.alt,
+      projectName: parsed.projectName || undefined,
+      clientName: parsed.clientName || undefined,
       video: { url: parsed.url, posterUrl: parsed.posterUrl || undefined },
     });
   }
 
   revalidatePath(`/admin/categories/${categorySlug}`);
   revalidatePath("/our-work-cms");
+  revalidatePath("/our-work");
   redirect(`/admin/categories/${categorySlug}`);
 }
 
@@ -154,19 +170,22 @@ export async function updateItemAction(formData: FormData) {
   const type = z.enum(["image", "video"]).parse(formData.get("type"));
   const order = z.coerce.number().int().min(0).parse(formData.get("order"));
   const alt = z.string().trim().min(1).parse(formData.get("alt"));
+  const projectName = z.string().trim().optional().parse(formData.get("projectName") || undefined);
+  const clientName = z.string().trim().optional().parse(formData.get("clientName") || undefined);
 
   if (type === "image") {
     const thumbUrl = mediaUrl.parse(formData.get("thumbUrl"));
     const fullUrl = mediaUrl.parse(formData.get("fullUrl"));
-    await work.updateItem(id, { order, alt, image: { thumbUrl, fullUrl } });
+    await work.updateItem(id, { order, alt, projectName, clientName, image: { thumbUrl, fullUrl } });
   } else {
     const url = mediaUrl.parse(formData.get("url"));
     const posterUrl = mediaUrlOptional.parse(formData.get("posterUrl"));
-    await work.updateItem(id, { order, alt, video: { url, posterUrl: posterUrl || undefined } });
+    await work.updateItem(id, { order, alt, projectName, clientName, video: { url, posterUrl: posterUrl || undefined } });
   }
 
   revalidatePath(`/admin/categories/${categorySlug}`);
   revalidatePath("/our-work-cms");
+  revalidatePath("/our-work");
   redirect(`/admin/categories/${categorySlug}`);
 }
 
@@ -186,5 +205,6 @@ export async function deleteItemAction(formData: FormData) {
 
   revalidatePath(`/admin/categories/${categorySlug}`);
   revalidatePath("/our-work-cms");
+  revalidatePath("/our-work");
   redirect(`/admin/categories/${categorySlug}`);
 }

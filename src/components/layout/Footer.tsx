@@ -30,8 +30,8 @@ export default function Footer() {
     <footer className=" bg-neutral-900/90 px-4 pt-14 pb-6 md:px-8">
       <div className="mx-auto grid max-w-6xl gap-10 sm:grid-cols-3">
         <div>
-          <h3 className="text-sm font-semibold tracking-wide text-sky-400">Address</h3>
-          <address className="mt-3 space-y-0.5 text-sm not-italic text-neutral-400">
+          <h3 className="text-[12.6px] font-semibold tracking-wide text-sky-400">Address</h3>
+          <address className="mt-3 space-y-0.5 text-[12.6px] not-italic text-neutral-400">
             {SITE.address.map((line) => (
               <p key={line}>{line}</p>
             ))}
@@ -39,15 +39,15 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold tracking-wide text-sky-400">Contact us</h3>
-          <div className="mt-3 space-y-0.5 text-sm text-neutral-400">
+          <h3 className="text-[12.6px] font-semibold tracking-wide text-sky-400">Contact us</h3>
+          <div className="mt-3 space-y-0.5 text-[12.6px] text-neutral-400">
             <p>Phone: {SITE.phone}</p>
             <p>Email: {SITE.email}</p>
           </div>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold tracking-wide text-sky-400">Follow us</h3>
+          <h3 className="text-[12.6px] font-semibold tracking-wide text-sky-400">Follow us</h3>
           <div className="mt-3 flex gap-3">
             {SOCIAL_LINKS.map(({ label, href, Icon }) => (
               <a

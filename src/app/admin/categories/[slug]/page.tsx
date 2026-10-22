@@ -41,6 +41,8 @@ export default async function AdminCategoryItemsPage({ params }: { params: Promi
               <div className="admin-item-card-fields">
                 <input type="number" name="order" defaultValue={item.order} min={0} className="admin-order-input" title="Order" />
                 <input type="text" name="alt" defaultValue={item.alt} placeholder="Alt text" className="admin-title-input" />
+                <input type="text" name="projectName" defaultValue={item.projectName} placeholder="Project name" className="admin-title-input" />
+                <input type="text" name="clientName" defaultValue={item.clientName} placeholder="Client name" className="admin-title-input" />
               </div>
 
               <div className="admin-item-card-media">
@@ -77,6 +79,8 @@ export default async function AdminCategoryItemsPage({ params }: { params: Promi
         <input type="hidden" name="categorySlug" value={slug} />
         <div className="admin-item-card-fields">
           <input type="text" name="alt" placeholder="Alt text" className="admin-title-input" required />
+          <input type="text" name="projectName" placeholder="Project name" className="admin-title-input" />
+          <input type="text" name="clientName" placeholder="Client name" className="admin-title-input" />
         </div>
         <div className="admin-item-card-media">
           {isImage ? (

@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
 import OurWorkHero from "@/components/our-work/OurWorkHero";
 import CategoryRow from "@/components/our-work/CategoryRow";
-import { WORK_CATEGORIES } from "@/components/our-work/our-work-data";
+import { getWorkCategoriesForDisplay } from "@/lib/data/work";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Our work",
   description: "Every project reflects our commitment to storytelling, innovation, and results.",
 };
 
-export default function OurWorkPage() {
+export default async function OurWorkPage() {
+  const categories = await getWorkCategoriesForDisplay();
+
   return (
     <div>
       <OurWorkHero />
-      {WORK_CATEGORIES.map((category) => (
+      {categories.map((category) => (
         <CategoryRow key={category.id} category={category} />
       ))}
     </div>

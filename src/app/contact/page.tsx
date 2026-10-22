@@ -11,37 +11,34 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     Icon: Eye,
-    title: "Tell Us Your Vision",
-    description:
-      "Share your project details and goals. We ensure complete confidentiality and a clear understanding of your requirements.",
+    title: "Share your brief",
+    description: "Tell us your vision.",
   },
   {
     Icon: Users,
-    title: "Get a Creative Consultation",
-    description:
-      "Our team connects with you to explore ideas, align on objectives, and shape the right creative direction.",
+    title: "Let's connect",
+    description: "Explore ideas together.",
   },
   {
     Icon: Lightbulb,
-    title: "Receive a Strategic Plan",
-    description:
-      "We present a structured approach with timelines, creative direction, and execution clarity — tailored to your brand.",
+    title: "Plan the next step",
+    description: "Find the right approach.",
   },
 ];
 
 export default function ContactPage() {
   return (
     <section className="px-4 py-16 md:px-8 md:py-24">
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="flex max-w-[60%] flex-col gap-12">
         <div>
-          <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
-           Let's create something meaningful. 
-
+          <p className="text-sm font-semibold tracking-wide text-sky-400">CONTACT US</p>
+          <h1 className="mt-3 text-4xl font-bold leading-tight text-white md:text-5xl">
+            Let&apos;s create something great together.
           </h1>
-       
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-neutral-300">
-            Whether you're building a new brand, launching a campaign, producing content or exploring innovative possibilities, we're ready to collaborate and create something exceptional together.
 
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-neutral-300">
+            Tell us what you have in mind. We&apos;ll help turn your vision into reality.
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-8 border-t border-white/10 pt-10 sm:grid-cols-3">
@@ -56,6 +53,7 @@ export default function ContactPage() {
         </div>
 
         <ContactForm />
+        </div>
       </div>
     </section>
   );

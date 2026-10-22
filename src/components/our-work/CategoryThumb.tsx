@@ -3,8 +3,17 @@
 import { useState } from "react";
 import Image from "next/image";
 import type { WorkImage } from "./our-work-data";
+import CategoryThumbOverlay from "./CategoryThumbOverlay";
 
-export default function CategoryThumb({ image, onOpen }: { image: WorkImage; onOpen: () => void }) {
+export default function CategoryThumb({
+  image,
+  categoryTitle,
+  onOpen,
+}: {
+  image: WorkImage;
+  categoryTitle: string;
+  onOpen: () => void;
+}) {
   const [loaded, setLoaded] = useState(false);
 
   return (
@@ -19,6 +28,7 @@ export default function CategoryThumb({ image, onOpen }: { image: WorkImage; onO
         className={`work-thumb-img${loaded ? " work-thumb-img-loaded" : ""}`}
         onLoad={() => setLoaded(true)}
       />
+      <CategoryThumbOverlay tag={categoryTitle} projectName={image.projectName} clientName={image.clientName} />
     </button>
   );
 }

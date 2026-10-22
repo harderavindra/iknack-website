@@ -2,13 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { WorkVideo } from "./our-work-data";
+import CategoryThumbOverlay from "./CategoryThumbOverlay";
 
 export default function CategoryVideoThumb({
   video,
+  categoryTitle,
   isActive,
   onOpen,
 }: {
   video: WorkVideo;
+  categoryTitle: string;
   isActive: boolean;
   onOpen: () => void;
 }) {
@@ -45,6 +48,7 @@ export default function CategoryVideoThumb({
         preload="none"
         onLoadedData={() => setLoaded(true)}
       />
+      <CategoryThumbOverlay tag={categoryTitle} projectName={video.projectName} clientName={video.clientName} />
     </button>
   );
 }

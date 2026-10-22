@@ -14,6 +14,8 @@ export type Slide = {
   type: "video" | "image";
   src: string;
   poster?: string;
+  projectName?: string;
+  clientName?: string;
 };
 
 export const SLIDES: Slide[] = [
@@ -22,6 +24,8 @@ export const SLIDES: Slide[] = [
     type: "video",
     src: "/iknack-home-v-1.mp4",
     poster: "/home-video-img-1.webp",
+    projectName: "Harvest Campaign",
+    clientName: "Mahindra Tractors",
   },
   {
     id: "slide-2",
@@ -34,17 +38,23 @@ export const SLIDES: Slide[] = [
     type: "video",
     src: "/final-4-mahindra-ganesha.mp4",
     poster: "/home-video-img-3.webp",
+    projectName: "Ganesh Chaturthi Campaign",
+    clientName: "Mahindra Tractors",
   },
   {
     id: "slide-4",
     type: "video",
     src: "/iknack-home-v-4.mp4",
     poster: "/home-video-img-4.webp",
+    projectName: "Jamun Ice Candy",
+    clientName: "Bharkadevi",
   },
   {
     id: "slide-5",
     type: "image",
     src: "/mbull-features-posts.jpg",
+    projectName: "Digital Content Series",
+    clientName: "Mahindra Tractors",
   },
 ];
 

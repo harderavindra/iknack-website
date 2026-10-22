@@ -20,6 +20,8 @@ type ItemDoc = {
   type: MediaType;
   order: number;
   alt: string;
+  projectName?: string;
+  clientName?: string;
   image?: { thumbUrl: string; fullUrl: string };
   video?: { url: string; posterUrl?: string };
   sourceKey?: string;
@@ -53,6 +55,8 @@ export async function getWorkCategoriesForDisplay(): Promise<WorkCategory[]> {
         thumb: item.image?.thumbUrl ?? "",
         full: item.image?.fullUrl ?? "",
         alt: item.alt,
+        projectName: item.projectName,
+        clientName: item.clientName,
       }));
       return { id: category.slug, title: category.title, itemCount: images.length, images };
     }
@@ -61,6 +65,8 @@ export async function getWorkCategoriesForDisplay(): Promise<WorkCategory[]> {
       src: item.video?.url ?? "",
       poster: item.video?.posterUrl,
       alt: item.alt,
+      projectName: item.projectName,
+      clientName: item.clientName,
     }));
     return { id: category.slug, title: category.title, itemCount: videos.length, videos };
   });
@@ -106,6 +112,8 @@ export type ItemInput = {
   type: MediaType;
   order: number;
   alt: string;
+  projectName?: string;
+  clientName?: string;
   image?: { thumbUrl: string; fullUrl: string };
   video?: { url: string; posterUrl?: string };
   sourceKey?: string;

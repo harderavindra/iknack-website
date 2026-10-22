@@ -61,9 +61,14 @@ export default function CategoryRow({ category }: { category: WorkCategory }) {
             <SwiperSlide key={i}>
               <div className="work-category-item-inner">
                 {image ? (
-                  <CategoryThumb image={image} onOpen={() => setLightboxIndex(i)} />
+                  <CategoryThumb image={image} categoryTitle={category.title} onOpen={() => setLightboxIndex(i)} />
                 ) : video ? (
-                  <CategoryVideoThumb video={video} isActive={i === activeIndex} onOpen={() => setLightboxIndex(i)} />
+                  <CategoryVideoThumb
+                    video={video}
+                    categoryTitle={category.title}
+                    isActive={i === activeIndex}
+                    onOpen={() => setLightboxIndex(i)}
+                  />
                 ) : (
                   <ImagePlaceholder label={`${category.title} — item ${i + 1}`} aspect="aspect-[4/3]" />
                 )}

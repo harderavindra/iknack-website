@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function MediaSlot({
   name,
@@ -21,6 +21,25 @@ export default function MediaSlot({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const hiddenInputRef = useRef<HTMLInputElement>(null);
+
+  // `required` on a type="hidden" input is silently ignored by the browser (hidden
+  // inputs are exempt from constraint validation), so a required field left empty
+  // after deleting its media would otherwise submit straight through to the server
+  // action and crash there instead of being caught here.
+  useEffect(() => {
+    if (!required) return;
+    const form = hiddenInputRef.current?.closest("form");
+    if (!form) return;
+    const onSubmit = (e: SubmitEvent) => {
+      if (!value) {
+        e.preventDefault();
+        setError(`Please upload ${label || "a file"} before saving.`);
+      }
+    };
+    form.addEventListener("submit", onSubmit);
+    return () => form.removeEventListener("submit", onSubmit);
+  }, [required, value, label]);
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -57,7 +76,7 @@ export default function MediaSlot({
   return (
     <div className="admin-media-slot">
       <span className="admin-media-slot-label">{label}</span>
-      <input type="hidden" name={name} value={value} required={required} />
+      <input ref={hiddenInputRef} type="hidden" name={name} value={value} />
 
       {value ? (
         <div className="admin-media-slot-preview">

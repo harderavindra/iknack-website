@@ -149,8 +149,15 @@ export default function HomeContent() {
         scrollTrigger: { trigger: ".story-section", start: "40% top", end: "100% top", scrub: 1 },
       });
 
+      // Horizontal peek carousel: .parent is translated by one card-width-plus-gap per
+      // step so each card centers under the viewport mask (.card-rotation) in turn.
+      const CARD_WIDTH = 300;
+      const CARD_GAP = 40;
+      const CARD_STEP = CARD_WIDTH + CARD_GAP;
+      const cardOffsetX = (index: number) => () => window.innerWidth / 2 - CARD_WIDTH / 2 - index * CARD_STEP;
+
       const parent = root.querySelector<HTMLDivElement>(".parent");
-      if (parent) gsap.set(parent, { rotate: 0 });
+      if (parent) gsap.set(parent, { x: cardOffsetX(0) });
 
       const slideVideos = new Map<number, HTMLVideoElement>();
       const cardVideos = new Map<number, HTMLVideoElement>();
@@ -225,19 +232,19 @@ export default function HomeContent() {
         .to({}, { duration: 0.01 })
         .to(".slide-2", { opacity: 1, rotate: 0, duration: 0.01 })
         .addLabel("s2")
-        .to(".parent", { rotate: -30, duration: 0.01 }, "s2")
+        .to(".parent", { x: cardOffsetX(1), duration: 0.01 }, "s2")
         .to({}, { duration: 0.01 })
         .to(".slide-3", { opacity: 1, rotate: 0, duration: 0.01 })
         .addLabel("s3")
-        .to(".parent", { rotate: -60, duration: 0.01 }, "s3")
+        .to(".parent", { x: cardOffsetX(2), duration: 0.01 }, "s3")
         .to({}, { duration: 0.01 })
         .to(".slide-4", { opacity: 1, rotate: 0, duration: 0.01 })
         .addLabel("s4")
-        .to(".parent", { rotate: -90, duration: 0.01 }, "s4")
+        .to(".parent", { x: cardOffsetX(3), duration: 0.01 }, "s4")
         .to({}, { duration: 0.01 })
         .to(".slide-5", { opacity: 1, rotate: 0, duration: 0.01 })
         .addLabel("s5")
-        .to(".parent", { rotate: -120, duration: 0.01 }, "s5");
+        .to(".parent", { x: cardOffsetX(4), duration: 0.01 }, "s5");
 
       // `.call()` side effects only fire when the scrub moves forward past them, so a
       // backward scroll would leave `current-N` stuck ahead of the actual visual state.
@@ -346,15 +353,22 @@ export default function HomeContent() {
       </div>
 
       <div className="services-section">
-        {SLIDES.map((slide) => (
+        {SLIDES.map((slide, i) => (
           <div key={slide.id} className={`${slide.id} slide`}>
-            1
-            
             {slide.type === "video" ? (
               <video data-src={slide.src} loop muted playsInline preload="none" poster={slide.poster} />
             ) : (
               <Image src={slide.src} alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
             )}
+            <div className="slide-info">
+              {(slide.clientName || slide.projectName) && (
+                <div className="slide-info-names">
+                  {slide.clientName && <span className="slide-client">{slide.clientName}</span>}
+                  {slide.projectName && <span className="slide-project">{slide.projectName}</span>}
+                </div>
+              )}
+              {SERVICE_CARDS[i] && <span className="slide-tag">{SERVICE_CARDS[i].heading.join(" ")}</span>}
+            </div>
           </div>
         ))}
 
@@ -367,11 +381,6 @@ export default function HomeContent() {
                     {card.heading[0]}
                     <br />
                     {card.heading[1]}
-                    <span>
-                      {card.heading[0]}
-                      <br />
-                      {card.heading[1]}
-                    </span>
                   </h2>
                   <ul>
                     {card.list.map((item) => (
@@ -408,7 +417,6 @@ export default function HomeContent() {
           <div className="why-list">
             {WHY_US_HOME.map((item) => (
               <div className="why-item" key={item.number}>
-                <div className="number">{item.number}</div>
                 <h4>{item.title}</h4>
                 <div className="info">
                   <p className="text-xl">{item.text}</p>

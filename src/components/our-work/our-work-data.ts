@@ -2,12 +2,16 @@ export type WorkImage = {
   thumb: string;
   full: string;
   alt: string;
+  projectName?: string;
+  clientName?: string;
 };
 
 export type WorkVideo = {
   src: string;
   poster?: string;
   alt: string;
+  projectName?: string;
+  clientName?: string;
 };
 
 export type WorkCategory = {

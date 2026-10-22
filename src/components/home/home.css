@@ -80,7 +80,7 @@ a.spline-watermark {
   position: sticky;
   top: 0;
   height: 100vh;
-  font-size: 36px;
+  font-size: 25px;
   font-weight: 300;
   padding: 0 7rem 0 0;
   display: flex;
@@ -107,10 +107,10 @@ a.spline-watermark {
 }
 
 .intro-highlights span {
-  font-family: var(--font-reenie), "Segoe Print", "Bradley Hand", cursive;
-  font-size: 48px;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-size: 34px;
   text-transform: lowercase;
-  font-weight: 400;
+  font-weight: 300;
   display: flex;
   justify-content: flex-end;
 }
@@ -168,7 +168,7 @@ a.spline-watermark {
 
 .story-section .story-content {
   text-align: center;
-  font-size: 6rem;
+  font-size: 3.36rem;
   position: sticky;
   top: 0px;
   padding-top: 20vh;
@@ -215,6 +215,50 @@ a.spline-watermark {
   top: 0;
 }
 
+.slide-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* .card-rotation (the peek carousel) sits on top at z-index 99999 and covers the
+     bottom 400px of the section — keep this clear of it rather than racing z-index. */
+  bottom: 420px;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.slide-info-names {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.slide-client {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.slide-project {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.slide-tag {
+  flex-shrink: 0;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .slide-1 {
   opacity: 1;
   transform: rotate(0deg);
@@ -228,28 +272,32 @@ a.spline-watermark {
   transform: rotate(45deg);
 }
 
-.parent {
-  position: relative;
-  width: 1928px;
-  height: 1928px;
-  margin: 0px auto;
-  z-index: 99999;
-  transform: rotate(45deg);
-}
-
+/* Simple horizontal peek carousel — cards sit in a row and .parent is translated
+   (via GSAP x tweens, see HomeContent.tsx) so each one centers in turn, instead of
+   spinning around a rotated wheel. */
 .card-rotation {
   position: absolute;
   bottom: 0;
   height: 400px;
   width: 100%;
   display: flex;
-  overflow: hidden;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.parent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  height: 400px;
+  z-index: 99999;
 }
 
 .child {
-  position: absolute;
-  top: 0%;
-  left: calc(50% - 150px);
+  position: relative;
+  flex: 0 0 300px;
   width: 300px;
   height: 400px;
   background: #ffffff00;
@@ -258,7 +306,8 @@ a.spline-watermark {
   align-items: center;
   justify-content: center;
   border-radius: 0px;
-  transform-origin: center;
+  transform: scale(0.92) translateY(40%);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .child video,
@@ -271,26 +320,13 @@ a.spline-watermark {
   overflow: hidden;
 }
 
-.c1 {
-  transform: rotate(0deg) translate(0) rotate(0deg);
-}
-.c2 {
-  transform: translate(378px, 102px) rotate(30deg);
-}
-.c3 {
-  transform: translate(655px, 381px) rotate(60deg);
-}
-.c4 {
-  transform: translate(756px, 761px) rotate(90deg);
-}
-.c5 {
-  transform: translate(655px, 1142px) rotate(120deg);
-}
-.c6 {
-  transform: translate(378px, 1421px) rotate(150deg);
-}
-.c7 {
-  transform: translate(0px, 1521.5px) rotate(180deg);
+.current-1 .c1,
+.current-2 .c2,
+.current-3 .c3,
+.current-4 .c4,
+.current-5 .c5 {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 
 .services-section .child .content {
@@ -300,7 +336,7 @@ a.spline-watermark {
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   gap: 10px;
@@ -308,8 +344,8 @@ a.spline-watermark {
 }
 
 .services-section .child .content h2 {
-  font-size: 4rem;
-  text-align: center;
+  font-size: 2.8rem;
+  text-align: left;
   font-family: var(--font-roboto), "Roboto", sans-serif;
   text-indent: 9px;
   letter-spacing: 4px;
@@ -318,19 +354,20 @@ a.spline-watermark {
   white-space: nowrap;
 }
 
-.services-section .child .content h2 span {
-  position: absolute;
-  color: #000;
-  z-index: 2;
-  display: block;
-  top: 0;
-  text-shadow:
-    -2px -2px 0 #ffffff,
-    2px -2px 0 #ffffff,
-    -2px 2px 0 #ffffff,
-    2px 2px 0 #ffffff;
-  height: 50%;
-  overflow: hidden;
+.services-section .child .content ul {
+  font-size: 1.25rem;
+  list-style: disc;
+  list-style-position: inside;
+  color: #ffffff;
+  text-align: left;
+}
+
+.services-section .child .content li {
+  margin: 4px 0;
+}
+
+.services-section .child .content li::marker {
+  color: #ffffff;
 }
 
 .current-1 .c1 video,
@@ -366,10 +403,11 @@ a.spline-watermark {
 }
 
 .why-us-content h3 {
-  font-size: 18px;
+  font-size: 27px;
   margin-bottom: 10px;
   color: #29aae2;
   font-weight: 400;
+  text-align: center;
 }
 
 .why-us-content h2 {
@@ -377,6 +415,7 @@ a.spline-watermark {
   color: #ffffff;
   font-weight: 400;
   margin-bottom: 80px;
+  text-align: center;
 }
 
 .why-us-content .why-list {
@@ -390,27 +429,27 @@ a.spline-watermark {
   padding: 20px 0;
   display: flex;
   align-items: center;
+  gap: 80px;
   border-top: 1px solid #ffffff66;
   background: #000000;
   box-shadow: 0px -30px 30px #000000;
 }
 
-.why-us-content .why-list .why-item .number {
-  font-size: 124px;
-  min-width: 20%;
-  font-family: "Gideon Roman", serif;
-}
 
 .why-us-content .why-list .why-item h4 {
+  flex: 1 1 0%;
   font-size: 42px;
   margin-bottom: 10px;
   color: #fff;
   font-weight: 400;
-  min-width: 30%;
+}
+
+.why-us-content .why-list .why-item .info {
+  flex: 1 1 0%;
 }
 
 .why-us-content .why-list .why-item p {
- 
+
   color: #fff;
 }
 
@@ -474,20 +513,10 @@ a.spline-watermark {
     font-size: 1.75rem;
   }
 
-  .parent {
-    transform: rotate(45deg) scale(0.32);
-    transform-origin: top left;
-  }
-
   .why-us-content .why-list .why-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
-  }
-
-  .why-us-content .why-list .why-item .number {
-    font-size: 64px;
-    min-width: 0;
   }
 
   .why-us-content .why-list .why-item h4 {
