@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ServiceRow from "@/components/services/ServiceRow";
+import HeroVideo from "@/components/services/HeroVideo";
 import { getServicesForDisplay } from "@/lib/data/services";
 import FadeInOnScroll from "@/components/ui/FadeInOnScroll";
 
@@ -17,48 +18,16 @@ export default async function ServicesPage() {
     <div>
       <section className="grid h-[85vh] min-h-[560px] grid-cols-2 grid-rows-2 bg-black">
         <div className="relative h-full w-full overflow-hidden rounded-br-[100px] sm:rounded-br-[180px] lg:rounded-br-[320px]">
-          <video
-            className="h-full w-full object-cover"
-            src="/service/Service-V1.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          />
+          <HeroVideo src="/service/service-v1.mp4" />
         </div>
         <div className="relative h-full w-full overflow-hidden rounded-bl-[100px] sm:rounded-bl-[180px] lg:rounded-bl-[320px]">
-          <video
-            className="h-full w-full object-cover"
-            src="/service/Service-V2.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          />
+          <HeroVideo src="/service/service-v2.mp4" />
         </div>
         <div className="relative h-full w-full overflow-hidden rounded-tr-[100px] sm:rounded-tr-[180px] lg:rounded-tr-[320px]">
-          <video
-            className="h-full w-full object-cover"
-            src="/service/Service-V3.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          />
+          <HeroVideo src="/service/service-v3.mp4" />
         </div>
         <div className="relative h-full w-full overflow-hidden rounded-tl-[100px] sm:rounded-tl-[180px] lg:rounded-tl-[320px]">
-          <video
-            className="h-full w-full object-cover"
-            src="/service/Service-Thumb-V-5.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          />
+          <HeroVideo src="/service/service-thumb-v-5.mp4" />
         </div>
       </section>
 
