@@ -41,13 +41,7 @@ export default function OurWorkHero() {
         
       </div>
       <div className="hero-video-overlay">
-          <h1>
-            Every project reflects
-            <br />
-            our commitment to storytelling,
-            <br />
-            innovation, and results.
-          </h1>
+          <h1>Every project reflects our commitment to storytelling, innovation, and results.</h1>
         </div>
     </div>
   );

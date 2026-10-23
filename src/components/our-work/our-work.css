@@ -4,16 +4,13 @@
   background: #000;
 }
 .hero-video-overlay h1{
-      max-width: 880px;
-    position: absolute;
-    inset-block-start: 300px;
+    max-width: 880px;
     font-family: var(--font-poppins), "Poppins", sans-serif;
     font-weight: 700;
-    font-size: 48px;
+    font-size: 34px;
     color: #fff;
     text-align: center;
-    text-transform: none; 
-    top: 200px;
+    text-transform: none;
 }
 .hero-video-content {
   position: relative;
