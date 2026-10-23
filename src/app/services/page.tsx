@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import ServiceRow from "@/components/services/ServiceRow";
-import { SERVICE_CATEGORIES } from "@/components/services/services-data";
+import { getServicesForDisplay } from "@/lib/data/services";
 import FadeInOnScroll from "@/components/ui/FadeInOnScroll";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Services",
   description: "Integrated creative services with seamless execution.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServicesForDisplay();
+
   return (
     <div>
       <section className="grid h-[85vh] min-h-[560px] grid-cols-2 grid-rows-2 bg-black">
@@ -72,7 +76,7 @@ export default function ServicesPage() {
             <span className="text-lg font-medium text-white md:sticky md:top-32">Our Services</span>
           </div>
           <div className="divide-y divide-white/10">
-            {SERVICE_CATEGORIES.map((service) => (
+            {services.map((service) => (
               <ServiceRow key={service.title} service={service} />
             ))}
           </div>

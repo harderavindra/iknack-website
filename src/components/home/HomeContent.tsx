@@ -353,22 +353,13 @@ export default function HomeContent() {
       </div>
 
       <div className="services-section">
-        {SLIDES.map((slide, i) => (
+        {SLIDES.map((slide) => (
           <div key={slide.id} className={`${slide.id} slide`}>
             {slide.type === "video" ? (
               <video data-src={slide.src} loop muted playsInline preload="none" poster={slide.poster} />
             ) : (
               <Image src={slide.src} alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
             )}
-            <div className="slide-info">
-              {(slide.clientName || slide.projectName) && (
-                <div className="slide-info-names">
-                  {slide.clientName && <span className="slide-client">{slide.clientName}</span>}
-                  {slide.projectName && <span className="slide-project">{slide.projectName}</span>}
-                </div>
-              )}
-              {SERVICE_CARDS[i] && <span className="slide-tag">{SERVICE_CARDS[i].heading.join(" ")}</span>}
-            </div>
           </div>
         ))}
 

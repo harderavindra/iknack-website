@@ -88,22 +88,21 @@ export default function AboutPage() {
         <section className="pt-16 md:pt-24">
         
 
-          <div className="relative mt-10 aspect-[16/7]  rounded-3xl px-40">
-              <h1 className="max-w-3xl text-2xl absolute -left-20  -top-10 font-semibold text-white md:text-5xl z-2 text-shadow-2xl text-shadow-black" style={{     "textShadow": "3px 4px black" }}>
-            Building brands, stories and experiences 
-          </h1>
-            <Image
-              src="/aboutus-hero-img.webp"
-              alt="iKnack team collaborating"
-              fill
-              sizes="(min-width: 768px) 1152px, 100vw"
-              style={{ objectFit: "cover", borderRadius: "1.5rem" }}
-              priority
-            />
-            <div className="pointer-events-none absolute -right-20 -bottom-15  p-6 md:p-8 " style={{     "textShadow": "3px 4px black" }}>
-              <p className="text-lg font-semibold text-white md:text-6xl">
-               that people remember.
-              </p>
+          <div className="mt-10">
+            <h1 className="max-w-4xl text-2xl font-semibold leading-tight text-white md:text-5xl">
+              Building brands, stories and experiences that people remember.
+            </h1>
+           
+
+            <div className="relative mt-8 aspect-[16/7] overflow-hidden rounded-3xl">
+              <Image
+                src="/aboutus-hero-img.webp"
+                alt="iKnack team collaborating"
+                fill
+                sizes="(min-width: 768px) 1152px, 100vw"
+                style={{ objectFit: "cover" }}
+                priority
+              />
             </div>
           </div>
 
