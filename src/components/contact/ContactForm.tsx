@@ -26,7 +26,11 @@ export default function ContactForm() {
 
   return (
     <div>
-      <p className="text-sm font-semibold tracking-wide text-neutral-400">FORM FIELDS</p>
+      <h2 className="text-2xl font-bold text-white">Start the conversation</h2>
+      <p className="mt-3 max-w-xl leading-relaxed text-neutral-300">
+        Whether you&apos;re building a new brand, launching a campaign, producing content or exploring innovative
+        possibilities, we&apos;re ready to collaborate and create something exceptional together.
+      </p>
 
       {submitted ? (
         <p className="mt-6 rounded-xl border border-sky-400/30 bg-sky-400/10 px-5 py-4 font-medium text-sky-300">

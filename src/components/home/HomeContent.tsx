@@ -238,12 +238,7 @@ export default function HomeContent({
 
       <section className="why-us-section">
         <div className="why-us-content">
-          <h3>Why us</h3>
-          <h2>
-            Because great brands deserve
-            <br />
-            more than just design — they deserve vision.
-          </h2>
+          <h2>Why brands choose iKnack</h2>
           <div className="why-list">
             {WHY_US_HOME.map((item) => (
               <div className="why-item" key={item.number}>

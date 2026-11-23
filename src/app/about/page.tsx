@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Palette, Video, Megaphone, PenTool, Camera } from "lucide-react";
 import ScrollColorReveal from "@/components/ui/ScrollColorReveal";
 
 export const metadata: Metadata = {
@@ -10,73 +9,15 @@ export const metadata: Metadata = {
 };
 
 const LEADERSHIP = [
-  { name: "Jitendra Vasoikar", role: "Founder & CEO", photo: "/jitendra.png", width: 431, height: 407 },
-  { name: "Umesh Sadashive", role: "Co-Founder and Production Head", photo: "/umesh.png", width: 400, height: 407 },
-  { name: "Azim Pathan", role: "Creative Director", photo: "/azim.png", width: 453, height: 407 },
+  { name: "Jitendra Vasoikar", role: "Founder & CEO" },
+  { name: "Umesh Sadashive", role: "Co-Founder and Production Head" },
+  { name: "Azim Pathan", role: "Creative Director" },
 ];
 
-const WHY_US = [
-  {
-    icon: "/about-icon1.svg",
-    title: "Experience",
-    description:
-      "With six years in the industry, we have a wealth of knowledge and a proven record of successful projects.",
-  },
-  {
-    icon: "/about-icon2.svg",
-    title: "Innovation",
-    description:
-      "We thrive on creativity and innovation, pushing the boundaries of what's possible to deliver fresh and engaging content.",
-  },
-  {
-    icon: "/about-icon3.svg",
-    title: "Client Centric Approach",
-    description:
-      "Your success is our success. We work closely with our clients, understanding their unique needs and crafting tailored solutions.",
-  },
-  {
-    icon: "/about-icon4.svg",
-    title: "Local Presence",
-    description:
-      "Based in Mumbai and Pune, we have a deep understanding of the local market dynamics and trends.",
-  },
-  {
-    icon: "/about-icon5.svg",
-    title: "Quality Assurance",
-    description:
-      "We adhere to the highest standards of quality in every aspect of our work, ensuring your brand receives the attention it deserves.",
-  },
-];
-
-const WHAT_WE_OFFER = [
-  {
-       Icon: "/about-icon6.svg",
-    title: "Creative Services",
-    description:
-      "We are the architects of imagination, crafting compelling visual identities, logo designs, and branding solutions.",
-  },
-  {
-    Icon: "/about-icon7.svg",
-    title: "Video Production",
-    description:
-      "Our in-house video production team transforms concepts into visually stunning videos that convey your message effectively.",
-  },
-  {
-    Icon: "/about-icon8.svg",
-    title: "Social Media Management",
-    description:
-      "Social media is where conversations happen, and we ensure your brand is part of them. We create campaigns that boost engagement and build a loyal online community.",
-  },
-  {
-    Icon: "/about-icon9.svg",
-    title: "Designing",
-    description: "We understand that design is not just about aesthetics; it's about storytelling.",
-  },
-  {
-    Icon: "/about-icon10.svg",
-    title: "Photography",
-    description: "We ensure that each photograph becomes a powerful asset in your brand's visual identity.",
-  },
+const ABOUT_PARAGRAPHS = [
+  "Founded in 2017, iKnack began with a simple belief: great ideas deserve exceptional execution.",
+  "What started as a focused creative initiative has evolved into a full-service creative and production partner, helping brands communicate with clarity, creativity and confidence.",
+  "Today, we combine branding, content, films, digital experiences and emerging AI technologies to create work that connects with people and drives meaningful results.",
 ];
 
 export default function AboutPage() {
@@ -105,80 +46,61 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <ScrollColorReveal
-            className=" max-w-3xl  mx-auto items-center text-lg font-medium leading-relaxed md:text-2xl md:py-30"
-            text="Established in 2017, iKnack was founded with a clear vision — to create meaningful, high-impact brand experiences. What began as a focused creative initiative has evolved into a full-service creative and production agency, delivering integrated solutions across branding, films, digital, and AI-driven innovation."
-          />
+          <div className="py-16 text-center md:py-30">
+            <h2 className="text-[36px] font-bold leading-tight text-sky-400">About Us</h2>
+            {ABOUT_PARAGRAPHS.map((paragraph) => (
+              <ScrollColorReveal
+                key={paragraph}
+                className="mt-6 text-lg font-medium leading-relaxed md:text-2xl"
+                text={paragraph}
+              />
+            ))}
+          </div>
 
-          <div className="mt-12 flex flex-col items-start gap-20 md:flex-row md:items-center">
+          <div className="flex flex-col items-start gap-10 md:flex-row md:items-center md:gap-20">
             <div className="relative aspect-[4/2.6] w-full overflow-hidden rounded-2xl md:w-120 md:shrink-0">
               <Image
                 src="/about-us-img1.webp"
                 alt="iKnack team"
                 fill
-                sizes="(min-width: 768px) 288px, 100vw"
+                sizes="(min-width: 768px) 480px, 100vw"
                 style={{ objectFit: "cover" }}
               />
             </div>
-            <p className="text-lg leading-relaxed text-neutral-300">
-             Founded in 2017, iKnack began with a simple belief: great ideas deserve exceptional execution. <br /><br />
-What started as a focused creative initiative has evolved into a full-service creative and production partner, helping brands communicate with clarity, creativity and confidence.<br /><br />
-Today, we combine branding, content, films, digital experiences and emerging AI technologies to create work that connects with people and drives meaningful results.
+            <div>
+              <h2 className="text-[36px] font-bold leading-tight text-sky-400">Our Approach</h2>
+              <p className="mt-4 text-xl font-semibold text-white md:text-2xl">Every project begins with understanding.</p>
+              <p className="mt-6 text-lg leading-relaxed text-neutral-300">
+                We listen, explore and uncover insights that shape stronger strategies, sharper ideas and more impactful
+                experiences.
+              </p>
+              <p className="mt-4 text-lg leading-relaxed text-neutral-300">
+                By bringing together creative thinking, technical expertise and seamless execution, we create work that
+                delivers value at every touchpoint.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Team */}
+        <section className="py-20 md:py-28">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="text-[36px] font-bold leading-tight text-sky-400">The people behind the work</h2>
+            <p className="mt-4 text-xl font-semibold text-white md:text-2xl">Different expertise, shared ambition.</p>
+            <p className="mt-6 text-lg leading-relaxed text-neutral-300">
+              A team of strategists, creatives, producers and problem solvers united by one goal, creating work that
+              matters.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-neutral-300">
+              Together, we bring diverse perspectives, collaborative thinking and a commitment to excellence that drives
+              every project forward.
             </p>
           </div>
-        </section>
-
-        {/* Leadership */}
-        <section className="py-20 md:py-28">
-          <h2 className="text-center text-3xl font-bold text-white md:text-4xl">Our Leadership</h2>
-          <p className="text-lg leading-relaxed text-neutral-300 max-w-4xl  mx-auto mb-20 mt-12 text-center">
-            A team of strategists, creatives, producers and problem solvers united by one goal, creating work that matters.
-            
-            Together, we bring diverse perspectives, collaborative thinking and a commitment to excellence that drives every project forward.
-          </p>
-          <div className="mt-12 grid gap-6 sm:grid-cols-3">
+          <div className="mt-12 grid gap-10 sm:grid-cols-3 md:gap-12">
             {LEADERSHIP.map((person) => (
-              <div key={person.name} className="relative overflow-hidden rounded-2xl bg-neutral-900 flex items-center justify-center overflow-visible ">
-                <Image
-                  src={person.photo}
-                  alt={person.name}
-                  width={person.width}
-                  height={person.height}
-                 
-                  style={{ width: "80%", height: "auto", objectFit: "cover", display: "block", margin: "0 auto", transform: "translateY(-10%)" }}
-                />
-                <div className="pointer-events-none absolute inset-x-0 bg-gradient-to-t from-black/100 to-transparent/20 p-4 pt-20" style={{ bottom: "0px", background: "linear-gradient(360deg, black 20%, #000000b3 50%, transparent 100%)" }}>
-                  <p className="font-semibold text-white">{person.name}</p>
-                  <p className="text-sm text-sky-400">{person.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Why us */}
-        <section className="border-t border-white/10 py-20 md:py-28">
-          <h2 className="text-center text-4xl font-semibold text-white md:text-6xl mb-20">Why us?</h2>
-          <div className="mt-12 grid  sm:grid-cols-2 lg:grid-cols-5 border border-white/30">
-            {WHY_US.map(({ icon, title, description }) => (
-              <div key={title} className="border-r border-white/30 last:border-none p-6">
-                <Image src={icon} alt="" width={42} height={42} />
-                <h3 className="mt-4 font-semibold text-white">{title}</h3>
-                <p className="mt-2 leading-relaxed text-neutral-400">{description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* What do we offer */}
-        <section className="border-t border-white/10 py-20 md:py-28">
-          <h2 className="text-center text-4xl font-semibold text-white md:text-6xl mb-20">What do we offer?</h2>
-          <div className="mt-12 grid  sm:grid-cols-2 lg:grid-cols-5 border border-white/30">
-            {WHAT_WE_OFFER.map(({ Icon, title, description }) => (
-              <div key={title} className="border-r border-white/30 last:border-none p-6">
-                <Image src={Icon} alt="" width={42} height={42} />
-                <h3 className="mt-4 font-semibold text-white">{title}</h3>
-                <p className="mt-2  leading-relaxed text-neutral-400">{description}</p>
+              <div key={person.name} className="rounded-2xl border border-white/10 bg-neutral-900 p-6 text-center">
+                <p className="text-lg font-semibold text-white">{person.name}</p>
+                <p className="mt-1 text-sm text-sky-400">{person.role}</p>
               </div>
             ))}
           </div>

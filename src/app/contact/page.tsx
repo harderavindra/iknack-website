@@ -5,7 +5,7 @@ import ContactForm from "@/components/contact/ContactForm";
 export const metadata: Metadata = {
   title: "Contact us",
   description:
-    "Share your vision with iKnack and we'll help you craft impactful brand experiences that deliver real results.",
+    "Share your vision, goals and ambitions. Our team will shape the strategy, creativity and execution required to bring it to life.",
 };
 
 const STEPS = [
@@ -34,11 +34,14 @@ export default function ContactPage() {
         <div>
           <p className="text-sm font-semibold tracking-wide text-sky-400">CONTACT US</p>
           <h1 className="mt-3 text-3xl font-bold leading-tight text-white md:text-3xl">
-            Let&apos;s create something great together.
+            Let&apos;s create something meaningful.
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-neutral-300">
-            Tell us what you have in mind. We&apos;ll help turn your vision into reality.
+            Share your vision, goals and ambitions.
+          </p>
+          <p className="mt-3 max-w-xl text-lg leading-relaxed text-neutral-300">
+            Our team will shape the strategy, creativity and execution required to bring it to life.
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-8 border-t border-white/10 pt-10 sm:grid-cols-3">

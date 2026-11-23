@@ -5,7 +5,7 @@ import type { PageHeroMedia } from "@/lib/data/page-heroes";
 // Full-width hero shared by /services and /our-work, so both are the same size.
 export default function PageHero({ media }: { media: PageHeroMedia }) {
   return (
-    <section className="relative h-[85vh] min-h-[560px] w-full overflow-hidden bg-black">
+    <section className="relative h-[85vh] min-h-[560px] w-full overflow-hidden bg-background">
       {media.type === "video" ? (
         <HeroVideo src={media.src} poster={media.poster} />
       ) : (

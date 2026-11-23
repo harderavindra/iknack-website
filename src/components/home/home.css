@@ -16,7 +16,7 @@ a.spline-watermark {
 }
 
 .hero-section::before {
-  background: linear-gradient(318deg, #000000 123px, transparent 300px);
+  background: linear-gradient(318deg, var(--background) 123px, transparent 300px);
   content: "";
   z-index: 10;
   position: absolute;
@@ -41,7 +41,7 @@ a.spline-watermark {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #000;
+  background: var(--background);
 }
 
 .home-banner-slide {
@@ -197,7 +197,7 @@ a.spline-watermark {
 }
 
 .moving-shape-i.has-backing {
-  background-color: #000;
+  background-color: var(--background);
 }
 
 .moving-shape-i .shape-top,

@@ -21,7 +21,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     subtitle: "Stories that inspire, content that connects",
     description:
       "From brand films and corporate narratives to campaign content and product showcases, every production is crafted to engage audiences and elevate brands.",
-    links: ["Brand Films", "Corporate Videos", "Campaign Films", "Product AVs", "Testimonial Films"],
+    links: ["Brand Films", "Product AVs", "Corporate Videos", "Testimonial Films", "Campaign Films"],
     video: "/service/service-thumb-v-2.mp4",
   },
   {

@@ -17,7 +17,7 @@ export default async function OurWorkCmsPage() {
   return (
     <div>
       <PageHero media={hero} />
-      <div className="flex justify-center bg-black px-6 py-10 sm:px-10 lg:px-16">
+      <div className="flex justify-center bg-background px-6 py-10 sm:px-10 lg:px-16">
         <h1 className="max-w-3xl text-center text-2xl font-bold leading-tight text-white sm:text-3xl">
           Every project reflects our commitment to storytelling, innovation, and results.
         </h1>
