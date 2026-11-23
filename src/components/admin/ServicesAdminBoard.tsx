@@ -102,6 +102,10 @@ export default function ServicesAdminBoard({
                 Video
                 <MediaSlot name="video" categorySlug="services" defaultValue={editingService?.video} kind="video" label="" required />
               </label>
+              <label>
+                Home page thumbnail (optional image)
+                <MediaSlot name="thumbnail" categorySlug="services" defaultValue={editingService?.thumbnail} kind="image" label="" />
+              </label>
 
               <div className="admin-drawer-actions">
                 <button type="submit">Save</button>

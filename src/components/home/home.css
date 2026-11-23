@@ -110,13 +110,12 @@ a.spline-watermark {
 
 .intro-content {
   display: flex;
-  min-height: 230vh;
   position: relative;
   align-items: flex-start;
   justify-content: flex-start;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1.5rem 15vh; /* room for the "i" exit after the last word */
 }
 
 .intro-content .intro-text,
@@ -130,9 +129,9 @@ a.spline-watermark {
   height: 100vh;
   font-size: 25px;
   font-weight: 300;
-  padding: 0 7rem 0 0;
+  padding: 25vh 7rem 0 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .intro-highlights ul {
@@ -145,7 +144,7 @@ a.spline-watermark {
   flex-direction: column;
   gap: 10vh;
   margin-left: 5px;
-  padding-top: 40vh;
+  padding-top: 25vh;
 }
 
 .intro-highlights li {
@@ -153,6 +152,11 @@ a.spline-watermark {
   flex-direction: column;
   align-self: flex-start;
   line-height: 1;
+}
+
+.intro-highlights .hl-initial {
+  font-style: normal;
+  opacity: 0.2;
 }
 
 .intro-highlights span {
@@ -220,6 +224,8 @@ a.spline-watermark {
 .story-section {
   height: 150vh;
   width: 100%;
+  position: relative;
+  z-index: 101; /* above the intro (99) and the moving "i" layer (100) */
   background: linear-gradient(208deg, rgba(8, 62, 71, 0.6) 16.6%, rgba(8, 62, 71, 0) 82.56%);
 }
 
@@ -247,33 +253,66 @@ a.spline-watermark {
 .service-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid #ffffff33;
-  border-left: 1px solid #ffffff33;
+  gap: 40px;
   list-style: none;
 }
 
 .service-grid li {
-  border-right: 1px solid #ffffff33;
-  border-bottom: 1px solid #ffffff33;
+  border: 1px solid #ffffff1f;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--background);
 }
 
+/* Card: thumbnail on top, title on a plain dark strip below. */
 .service-grid a {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 220px;
-  padding: 2rem;
-  text-align: center;
-  font-size: 30px;
+  flex-direction: column;
+  height: 100%;
+  font-size: 26px;
   font-weight: 400;
   color: #fff;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: color 0.3s ease;
+}
+
+.service-grid-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #0b1a24;
+}
+
+.service-grid-media img,
+.service-grid-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.service-grid-title {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 110px;
+  padding: 1.5rem;
+  text-align: center;
+  line-height: 1.25;
 }
 
 .service-grid a:hover,
 .service-grid a:focus-visible {
-  background: #29abe21a;
   color: #29abe2;
+}
+
+.service-grid a:hover .service-grid-media img,
+.service-grid a:hover .service-grid-media video,
+.service-grid a:focus-visible .service-grid-media img,
+.service-grid a:focus-visible .service-grid-media video {
+  transform: scale(1.05);
 }
 
 /* Why us */
@@ -348,6 +387,7 @@ a.spline-watermark {
   .intro-content {
     flex-direction: column;
     min-height: 0;
+    padding-bottom: 0; /* no moving "i" on mobile */
   }
 
   .intro-content .intro-text,
@@ -384,12 +424,16 @@ a.spline-watermark {
 
   .service-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
 
   .service-grid a {
-    min-height: 140px;
-    padding: 1.25rem;
-    font-size: 20px;
+    font-size: 18px;
+  }
+
+  .service-grid-title {
+    min-height: 80px;
+    padding: 1rem;
   }
 
   .why-us-content .why-list .why-item {

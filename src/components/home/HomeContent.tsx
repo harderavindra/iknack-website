@@ -9,6 +9,7 @@ import "./home.css";
 import { INTRO_TEXT, INTRO_HIGHLIGHTS, WHY_US_HOME } from "./home-data";
 import HomeBanner from "./HomeBanner";
 import type { HomeBannerSlide } from "@/lib/data/home-banner";
+import type { ServiceLink } from "@/lib/data/services";
 
 
 export default function HomeContent({
@@ -16,7 +17,7 @@ export default function HomeContent({
   services,
 }: {
   bannerSlides: HomeBannerSlide[];
-  services: { slug: string; title: string }[];
+  services: ServiceLink[];
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -41,6 +42,7 @@ export default function HomeContent({
     gsap.ticker.lagSmoothing(0);
 
     const ctx = gsap.context(() => {
+      const LAST_WORD = ".intro-highlights li:last-child";
       gsap.to(".shape-top", {
         background: "linear-gradient(45deg, #29ABE2, #29ABE2)",
         ease: "none",
@@ -54,19 +56,46 @@ export default function HomeContent({
 
       const icon = root.querySelector<HTMLDivElement>(".moving-shape-i");
       if (icon) {
-        const getHighlightLeft = () => {
-          const highlight = root.querySelector(".intro-highlights li");
-          return highlight ? highlight.getBoundingClientRect().left : window.innerWidth / 2;
+        const ICON_WIDTH = 10;
+        const ICON_HEIGHT = 60;
+        // The shape lands exactly on the faded "I" of the first highlight word, at the moment
+        // that word reaches the middle of the screen — so it follows the intro layout/spacing.
+        const getInitialBox = () => {
+          const initial = root.querySelector(".intro-highlights .hl-initial");
+          if (!initial) return null;
+          const rect = initial.getBoundingClientRect();
+          return { left: rect.left, width: rect.width, docCenterY: rect.top + window.scrollY + rect.height / 2 };
+        };
+        const getLandingScroll = () => {
+          const box = getInitialBox();
+          return box ? Math.max(box.docCenterY - window.innerHeight / 2, 1) : window.innerHeight / 2;
         };
 
+        // Shrink to the small "i" quickly, while still over the banner, so the big shape never
+        // covers the intro words…
         gsap.to(icon, {
-          width: "14px",
-          height: "60px",
-          left: getHighlightLeft,
-          top: () => window.innerHeight / 2 - 50,
+          width: `${ICON_WIDTH}px`,
+          height: `${ICON_HEIGHT}px`,
+          ease: "none",
+          scrollTrigger: { trigger: ".hero-section", start: "top top", end: "25% top", scrub: 1 },
+        });
+
+        // …then glide it onto the faded "I".
+        gsap.to(icon, {
+          left: () => {
+            const box = getInitialBox();
+            return box ? box.left + box.width / 2 - ICON_WIDTH / 2 : window.innerWidth / 2;
+          },
+          top: () => window.innerHeight / 2 - ICON_HEIGHT / 2,
           right: "auto",
           ease: "none",
-          scrollTrigger: { trigger: ".hero-section", start: "top top", end: "50% top", scrub: 1, invalidateOnRefresh: true },
+          scrollTrigger: {
+            trigger: ".hero-section",
+            start: "top top",
+            end: getLandingScroll,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
         });
       }
 
@@ -76,8 +105,8 @@ export default function HomeContent({
       ScrollTrigger.create({
         trigger: ".intro-section",
         start: "top 15%",
-        endTrigger: ".story-section",
-        end: "top 60%",
+        endTrigger: ".intro-highlights li:last-child",
+        end: "top 30%",
         toggleClass: { targets: ".moving-shape-i", className: "has-backing" },
       });
 
@@ -104,17 +133,19 @@ export default function HomeContent({
       gsap.to(".shape-bottom", {
         opacity: 0,
         ease: "none",
-        scrollTrigger: { trigger: ".story-section", start: "top 90%", end: "top 75%", scrub: 1 },
+        scrollTrigger: { trigger: LAST_WORD, start: "top 50%", end: "top 42%", scrub: 1 },
       });
+      // The "i" sits at mid-screen. Its exit starts as the last word (INCLUSIVE) passes it and is
+      // done quickly, over the dark intro background, before the story section arrives.
       gsap.to(".shape-top", {
         borderRadius: "20px",
         ease: "none",
-        scrollTrigger: { trigger: ".story-section", start: "top 75%", end: "top 60%", scrub: 1 },
+        scrollTrigger: { trigger: LAST_WORD, start: "top 42%", end: "top 36%", scrub: 1 },
       });
       gsap.to(".shape-top", {
         opacity: 0,
         ease: "none",
-        scrollTrigger: { trigger: ".story-section", start: "top 40%", end: "top 20%", scrub: 1 },
+        scrollTrigger: { trigger: LAST_WORD, start: "top 36%", end: "top 30%", scrub: 1 },
       });
 
       gsap.to(".story-section .text-story", {
@@ -196,7 +227,10 @@ export default function HomeContent({
             <ul>
               {INTRO_HIGHLIGHTS.map((h) => (
                 <li key={h.title}>
-                  {h.title}
+                  <div className="hl-title">
+                    <em className="hl-initial">{h.title.charAt(0)}</em>
+                    {h.title.slice(1)}
+                  </div>
                   <span>{h.sub}</span>
                 </li>
               ))}
@@ -230,7 +264,18 @@ export default function HomeContent({
         <ul className="service-grid">
           {services.map((service) => (
             <li key={service.slug}>
-              <Link href={`/services#${service.slug}`}>{service.title}</Link>
+              <Link href={`/services#${service.slug}`}>
+                <span className="service-grid-media" aria-hidden="true">
+                  {service.thumbnail ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={service.thumbnail} alt="" loading="lazy" />
+                  ) : service.video ? (
+                    // No image uploaded yet: show a frame of the service video.
+                    <video src={`${service.video}#t=0.5`} muted playsInline preload="metadata" />
+                  ) : null}
+                </span>
+                <span className="service-grid-title">{service.title}</span>
+              </Link>
             </li>
           ))}
         </ul>

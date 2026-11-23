@@ -10,6 +10,7 @@ type ServiceDoc = {
   description: string;
   links: string[];
   video: string;
+  thumbnail?: string;
   order: number;
   createdAt: Date;
   updatedAt: Date;
@@ -34,13 +35,20 @@ export async function getServicesForDisplay(): Promise<ServiceCategory[]> {
   }));
 }
 
-// Just names + anchors, for the home page service grid.
-export async function getServiceLinks(): Promise<{ slug: string; title: string }[]> {
+export type ServiceLink = { slug: string; title: string; thumbnail?: string; video?: string };
+
+// Names, anchors and thumbnails for the home page service grid.
+export async function getServiceLinks(): Promise<ServiceLink[]> {
   const docs = await (await servicesCollection())
-    .find({}, { projection: { slug: 1, title: 1 } })
+    .find({}, { projection: { slug: 1, title: 1, thumbnail: 1, video: 1 } })
     .sort({ order: 1 })
     .toArray();
-  return docs.map((doc) => ({ slug: doc.slug, title: doc.title }));
+  return docs.map((doc) => ({
+    slug: doc.slug,
+    title: doc.title,
+    ...(doc.thumbnail ? { thumbnail: doc.thumbnail } : {}),
+    ...(doc.video ? { video: doc.video } : {}),
+  }));
 }
 
 // ---------- Admin CRUD ----------
@@ -52,6 +60,7 @@ export type ServiceInput = {
   description: string;
   links: string[];
   video: string;
+  thumbnail?: string;
   order: number;
 };
 

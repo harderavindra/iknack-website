@@ -39,17 +39,24 @@ const serviceSchema = z.object({
   subtitle: z.string().trim().optional(),
   description: z.string().trim().min(1),
   video: mediaUrl,
+  // Optional image for the home page service grid ("" = none).
+  thumbnail: z.union([z.literal(""), mediaUrl]).optional(),
 });
 
-export async function createServiceAction(formData: FormData) {
-  await requireAuth();
-
-  const parsed = serviceSchema.parse({
+function readServiceForm(formData: FormData) {
+  return serviceSchema.parse({
     title: formData.get("title"),
     subtitle: formData.get("subtitle"),
     description: formData.get("description"),
     video: formData.get("video"),
+    thumbnail: formData.get("thumbnail") ?? "",
   });
+}
+
+export async function createServiceAction(formData: FormData) {
+  await requireAuth();
+
+  const parsed = readServiceForm(formData);
   const links = parseLinks(formData.get("links"));
 
   const existing = await services.listServicesAdmin();
@@ -63,6 +70,7 @@ export async function createServiceAction(formData: FormData) {
   revalidatePath("/admin/services");
   revalidatePath("/services-cms");
   revalidatePath("/services");
+  revalidatePath("/");
   redirect("/admin/services");
 }
 
@@ -71,19 +79,20 @@ export async function updateServiceAction(formData: FormData) {
 
   const slug = z.string().min(1).parse(formData.get("slug"));
   const order = z.coerce.number().int().min(0).parse(formData.get("order"));
-  const parsed = serviceSchema.parse({
-    title: formData.get("title"),
-    subtitle: formData.get("subtitle"),
-    description: formData.get("description"),
-    video: formData.get("video"),
-  });
+  const parsed = readServiceForm(formData);
   const links = parseLinks(formData.get("links"));
 
+  const previous = await services.getServiceAdmin(slug);
   await services.updateService(slug, { ...parsed, links, order });
+
+  // Remove replaced/cleared uploads from storage.
+  if (previous?.video && previous.video !== parsed.video) await deleteGcsObjectByUrl(previous.video);
+  if (previous?.thumbnail && previous.thumbnail !== parsed.thumbnail) await deleteGcsObjectByUrl(previous.thumbnail);
 
   revalidatePath("/admin/services");
   revalidatePath("/services-cms");
   revalidatePath("/services");
+  revalidatePath("/");
   redirect("/admin/services");
 }
 
@@ -93,9 +102,11 @@ export async function deleteServiceAction(formData: FormData) {
   const slug = z.string().min(1).parse(formData.get("slug"));
   const deleted = await services.deleteService(slug);
   if (deleted?.video) await deleteGcsObjectByUrl(deleted.video);
+  if (deleted?.thumbnail) await deleteGcsObjectByUrl(deleted.thumbnail);
 
   revalidatePath("/admin/services");
   revalidatePath("/services-cms");
   revalidatePath("/services");
+  revalidatePath("/");
   redirect("/admin/services");
 }
