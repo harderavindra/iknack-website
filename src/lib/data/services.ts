@@ -25,12 +25,22 @@ async function servicesCollection() {
 export async function getServicesForDisplay(): Promise<ServiceCategory[]> {
   const docs = await (await servicesCollection()).find().sort({ order: 1 }).toArray();
   return docs.map((doc) => ({
+    slug: doc.slug,
     title: doc.title,
     subtitle: doc.subtitle,
     description: doc.description,
     links: doc.links,
     video: doc.video,
   }));
+}
+
+// Just names + anchors, for the home page service grid.
+export async function getServiceLinks(): Promise<{ slug: string; title: string }[]> {
+  const docs = await (await servicesCollection())
+    .find({}, { projection: { slug: 1, title: 1 } })
+    .sort({ order: 1 })
+    .toArray();
+  return docs.map((doc) => ({ slug: doc.slug, title: doc.title }));
 }
 
 // ---------- Admin CRUD ----------

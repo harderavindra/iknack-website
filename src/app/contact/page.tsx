@@ -33,7 +33,7 @@ export default function ContactPage() {
         <div className="flex max-w-[60%] flex-col gap-12">
         <div>
           <p className="text-sm font-semibold tracking-wide text-sky-400">CONTACT US</p>
-          <h1 className="mt-3 text-4xl font-bold leading-tight text-white md:text-5xl">
+          <h1 className="mt-3 text-3xl font-bold leading-tight text-white md:text-3xl">
             Let&apos;s create something great together.
           </h1>
 

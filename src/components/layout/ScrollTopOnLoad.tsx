@@ -7,7 +7,8 @@ export default function ScrollTopOnLoad() {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
-    window.scrollTo(0, 0);
+    // Leave deep links like /services#ai-and-innovation at their anchor.
+    if (!window.location.hash) window.scrollTo(0, 0);
   }, []);
 
   return null;

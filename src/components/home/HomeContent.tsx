@@ -1,19 +1,23 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-import { Roboto, Reenie_Beanie } from "next/font/google";
 import "./home.css";
-import { INTRO_TEXT, INTRO_HIGHLIGHTS, SLIDES, SERVICE_CARDS, WHY_US_HOME } from "./home-data";
-import { createBurstAnimation } from "./burst-animation";
+import { INTRO_TEXT, INTRO_HIGHLIGHTS, WHY_US_HOME } from "./home-data";
+import HomeBanner from "./HomeBanner";
+import type { HomeBannerSlide } from "@/lib/data/home-banner";
 
-const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-roboto" });
-const reenieBeanie = Reenie_Beanie({ subsets: ["latin"], weight: "400", variable: "--font-reenie" });
 
-export default function HomeContent() {
+export default function HomeContent({
+  bannerSlides,
+  services,
+}: {
+  bannerSlides: HomeBannerSlide[];
+  services: { slug: string; title: string }[];
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,14 +32,8 @@ export default function HomeContent() {
       touchMultiplier: 2,
     });
 
-    const burstCanvas = root.querySelector<HTMLCanvasElement>("#burst");
-    const heroSection = root.querySelector<HTMLElement>(".hero-section");
-    const serviceLabels = SERVICE_CARDS.map((card) => card.heading.join(" "));
-    const burst = burstCanvas && heroSection ? createBurstAnimation(burstCanvas, heroSection, serviceLabels) : null;
-
     const unsubscribeScroll = lenis.on("scroll", () => {
       ScrollTrigger.update();
-      burst?.updateScrollZoom();
     });
 
     const raf = (time: number) => lenis.raf(time * 1000);
@@ -62,20 +60,29 @@ export default function HomeContent() {
         };
 
         gsap.to(icon, {
-          width: "20px",
-          height: "80px",
-          boxShadow: "rgba(0, 0, 0, 0.9) 12px 0px 10px",
+          width: "14px",
+          height: "60px",
           left: getHighlightLeft,
           top: () => window.innerHeight / 2 - 50,
           right: "auto",
-          backgroundColor: "#000",
           ease: "none",
           scrollTrigger: { trigger: ".hero-section", start: "top top", end: "50% top", scrub: 1, invalidateOnRefresh: true },
         });
       }
 
+      // Black backing for the "i" only between the intro and story sections — never over the
+      // banner. A class toggle is derived purely from scroll position on every refresh, so it
+      // can't get stuck "on" the way paired fade-in/fade-out tweens could after a reload.
+      ScrollTrigger.create({
+        trigger: ".intro-section",
+        start: "top 15%",
+        endTrigger: ".story-section",
+        end: "top 60%",
+        toggleClass: { targets: ".moving-shape-i", className: "has-backing" },
+      });
+
       gsap.to(".shape-bottom", {
-        minHeight: "50px",
+        minHeight: "38px", // white stem ≈ ⅝ of the 60px mark, leaving room for the blue dot
         ease: "none",
         scrollTrigger: { trigger: ".intro-section", start: "-200vh top", end: "-180vh top", scrub: 1 },
       });
@@ -98,12 +105,6 @@ export default function HomeContent() {
         opacity: 0,
         ease: "none",
         scrollTrigger: { trigger: ".story-section", start: "top 90%", end: "top 75%", scrub: 1 },
-      });
-      gsap.to(".moving-shape-i", {
-        backgroundColor: "transparent",
-        boxShadow: "none",
-        ease: "none",
-        scrollTrigger: { trigger: ".story-section", start: "top 75%", end: "top 60%", scrub: 1 },
       });
       gsap.to(".shape-top", {
         borderRadius: "20px",
@@ -138,142 +139,16 @@ export default function HomeContent() {
         scrollTrigger: { trigger: ".story-section", start: "30% top", end: "40% top", scrub: 1 },
       });
 
-      gsap.set(".slide-1", { opacity: 1, rotate: -15, scale: 0.5, y: "-50vh" });
-      gsap.set([".slide-2", ".slide-3", ".slide-4"], { opacity: 0, rotate: 45 });
-
-      gsap.to(".slide-1", {
-        rotate: 0,
-        scale: 1,
-        y: "0vh",
-        duration: 1,
-        scrollTrigger: { trigger: ".story-section", start: "40% top", end: "100% top", scrub: 1 },
-      });
-
-      // Horizontal peek carousel: .parent is translated by one card-width-plus-gap per
-      // step so each card centers under the viewport mask (.card-rotation) in turn.
-      const CARD_WIDTH = 300;
-      const CARD_GAP = 40;
-      const CARD_STEP = CARD_WIDTH + CARD_GAP;
-      const cardOffsetX = (index: number) => () => window.innerWidth / 2 - CARD_WIDTH / 2 - index * CARD_STEP;
-
-      const parent = root.querySelector<HTMLDivElement>(".parent");
-      if (parent) gsap.set(parent, { x: cardOffsetX(0) });
-
-      const slideVideos = new Map<number, HTMLVideoElement>();
-      const cardVideos = new Map<number, HTMLVideoElement>();
-      [1, 2, 3, 4, 5].forEach((n) => {
-        const sv = root.querySelector<HTMLVideoElement>(`.slide-${n} video`);
-        if (sv) slideVideos.set(n, sv);
-        const cv = root.querySelector<HTMLVideoElement>(`.c${n} video`);
-        if (cv) cardVideos.set(n, cv);
-      });
-
-      const loadVideo = (video: HTMLVideoElement) => {
-        if (video.dataset.loaded) return;
-        video.dataset.loaded = "true";
-        video.src = video.dataset.src ?? "";
-        video.load();
-      };
-
-      let activeIndex = 1;
-      let activeSlideVideo: HTMLVideoElement | null = null;
-      let sectionActive = false;
-
-      const activateSlide = (n: number) => {
-        const next = slideVideos.get(n) ?? null;
-        if (activeSlideVideo && activeSlideVideo !== next) activeSlideVideo.pause();
-        activeSlideVideo = next;
-        const cardNext = cardVideos.get(n);
-        if (cardNext) loadVideo(cardNext);
-        if (next && sectionActive) {
-          loadVideo(next);
-          next.play().catch(() => {});
-        }
-      };
-
-      const unloadAllVideos = () => {
-        sectionActive = false;
-        activeSlideVideo?.pause();
-        activeSlideVideo = null;
-        [...slideVideos.values(), ...cardVideos.values()].forEach((video) => {
-          video.pause();
-          video.removeAttribute("src");
-          video.load();
-          delete video.dataset.loaded;
-        });
-      };
-
-      const setCurrent = (n: number) => {
-        activeIndex = n;
-        if (parent) parent.className = `parent current-${n}`;
-        activateSlide(n);
-      };
-
-      const activateCurrent = () => {
-        sectionActive = true;
-        activateSlide(activeIndex);
-      };
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".services-section",
-          start: "top top",
-          end: "+=400%",
-          scrub: 1,
-          pin: true,
-          onEnter: activateCurrent,
-          onEnterBack: activateCurrent,
-          onLeave: unloadAllVideos,
-          onLeaveBack: unloadAllVideos,
-        },
-      });
-
-      tl.addLabel("s1")
-        .to({}, { duration: 0.01 })
-        .to(".slide-2", { opacity: 1, rotate: 0, duration: 0.01 })
-        .addLabel("s2")
-        .to(".parent", { x: cardOffsetX(1), duration: 0.01 }, "s2")
-        .to({}, { duration: 0.01 })
-        .to(".slide-3", { opacity: 1, rotate: 0, duration: 0.01 })
-        .addLabel("s3")
-        .to(".parent", { x: cardOffsetX(2), duration: 0.01 }, "s3")
-        .to({}, { duration: 0.01 })
-        .to(".slide-4", { opacity: 1, rotate: 0, duration: 0.01 })
-        .addLabel("s4")
-        .to(".parent", { x: cardOffsetX(3), duration: 0.01 }, "s4")
-        .to({}, { duration: 0.01 })
-        .to(".slide-5", { opacity: 1, rotate: 0, duration: 0.01 })
-        .addLabel("s5")
-        .to(".parent", { x: cardOffsetX(4), duration: 0.01 }, "s5");
-
-      // `.call()` side effects only fire when the scrub moves forward past them, so a
-      // backward scroll would leave `current-N` stuck ahead of the actual visual state.
-      // Deriving the active step from the timeline's own position on every update
-      // (regardless of direction) keeps it correct scrolling either way.
-      const STEP_LABELS = ["s1", "s2", "s3", "s4", "s5"];
-      tl.eventCallback("onUpdate", () => {
-        const t = tl.time();
-        let idx = 1;
-        for (let i = 0; i < STEP_LABELS.length; i++) {
-          const labelTime = tl.labels[STEP_LABELS[i]];
-          if (labelTime !== undefined && t >= labelTime - 1e-6) idx = i + 1;
-        }
-        if (idx !== activeIndex) setCurrent(idx);
-      });
-      setCurrent(1);
-
       gsap.utils.toArray<HTMLElement>(".why-item").forEach((item) => {
-        gsap.to(item, {
-          y: 100,
+        gsap.from(item, {
+          y: 40,
           opacity: 0,
-          paddingTop: 0,
-          paddingBottom: 0,
-          duration: 1,
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: item,
-            start: "top 30%",
-            end: "bottom top",
-            scrub: 1,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
           },
         });
       });
@@ -284,13 +159,12 @@ export default function HomeContent() {
       gsap.ticker.remove(raf);
       unsubscribeScroll();
       lenis.destroy();
-      burst?.destroy();
     };
   }, []);
 
   return (
     <div
-      className={`home-page ${roboto.variable} ${reenieBeanie.variable}`}
+      className="home-page"
       ref={containerRef}
     >
       <div className="imoving-area">
@@ -301,7 +175,7 @@ export default function HomeContent() {
       </div>
 
       <section className="hero-section">
-        <canvas id="burst" aria-label="Animated iridescent burst. Move the pointer over it to tilt and spin it." />
+        <HomeBanner slides={bannerSlides} />
       </section>
 
       <section className="intro-section">
@@ -352,50 +226,15 @@ export default function HomeContent() {
         </div>
       </div>
 
-      <div className="services-section">
-        {SLIDES.map((slide) => (
-          <div key={slide.id} className={`${slide.id} slide`}>
-            {slide.type === "video" ? (
-              <video data-src={slide.src} loop muted playsInline preload="none" poster={slide.poster} />
-            ) : (
-              <Image src={slide.src} alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
-            )}
-          </div>
-        ))}
-
-        <div className="card-rotation">
-          <div className="parent">
-            {SERVICE_CARDS.map((card) => (
-              <div key={card.id} className={`child ${card.id}`}>
-                <div className="content">
-                  <h2>
-                    {card.heading[0]}
-                    <br />
-                    {card.heading[1]}
-                  </h2>
-                  <ul>
-                    {card.list.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-                {card.media.type === "video" ? (
-                  <video
-                    data-src={card.media.src}
-                    loop
-                    muted
-                    playsInline
-                    preload="none"
-                    poster={card.media.poster}
-                  />
-                ) : (
-                  <Image src={card.media.src} alt="" fill sizes="400px" style={{ objectFit: "cover" }} />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <section className="service-grid-section" aria-label="Our services">
+        <ul className="service-grid">
+          {services.map((service) => (
+            <li key={service.slug}>
+              <Link href={`/services#${service.slug}`}>{service.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section className="why-us-section">
         <div className="why-us-content">

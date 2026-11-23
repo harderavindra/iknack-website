@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Poppins } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ScrollTopOnLoad from "@/components/layout/ScrollTopOnLoad";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+// Brand font. Only two weights exist: Light (300) and Bold (700) — other weights
+// requested via Tailwind (font-medium, font-semibold…) resolve to the nearest one.
+const brandFont = localFont({
+  variable: "--font-brand",
+  src: [
+    { path: "../fonts/Fortheloveoffonts-Light.otf", weight: "300", style: "normal" },
+    { path: "../fonts/Fortheloveoffonts-Bold.otf", weight: "700", style: "normal" },
+  ],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -29,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${brandFont.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-black text-white">
         <ScrollTopOnLoad />

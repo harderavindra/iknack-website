@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
-import { Palette, Video, Megaphone, PenTool, Camera, ArrowRight } from "lucide-react";
+import { Palette, Video, Megaphone, PenTool, Camera } from "lucide-react";
 import ScrollColorReveal from "@/components/ui/ScrollColorReveal";
 
 export const metadata: Metadata = {
@@ -182,32 +181,6 @@ Today, we combine branding, content, films, digital experiences and emerging AI 
                 <p className="mt-2  leading-relaxed text-neutral-400">{description}</p>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="flex flex-col items-center justify-center gap-30 border-t border-white/10 py-20 md:flex-row md:items-center md:py-28">
-          <h2 className="text-4xl font-bold text-white md:text-6xl gap-3 flex flex-col">
-            <div className="flex items-center gap-2">
-            LET&apos;S TELL
-            <img src="/logo-icon.svg" alt="iKnack team collaborating" className="h-12 w-12" />
-            </div>
-            
-            YOUR STORY
-          </h2>
-          
-          <div className="">
-            <p className="text-lg font-medium uppercase tracking-widest text-neutral-50">
-              Request a consultation. Discuss your project.
-              <br />
-              Connect with our team.
-            </p>
-            <Link
-              href="/contact"
-              className="mt-4 inline-flex items-center gap-2 font-semibold text-sky-400 transition-colors hover:text-sky-300"
-            >
-              Say Hello <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
         </section>
       </div>

@@ -12,6 +12,7 @@ import LightboxImage from "./LightboxImage";
 import LightboxVideo from "./LightboxVideo";
 import type { WorkCategory } from "./our-work-data";
 import "swiper/css";
+import "./our-work.css";
 
 export default function CategoryRow({ category }: { category: WorkCategory }) {
   const swiperRef = useRef<SwiperClass | null>(null);
@@ -23,7 +24,7 @@ export default function CategoryRow({ category }: { category: WorkCategory }) {
   return (
     <section className="work-category" id={category.id}>
       <div className="work-category-header">
-        <h2>{category.title}</h2>
+        <h2 className="text-3xl font-bold text-white md:text-3xl">{category.title}</h2>
         <div className="work-category-nav">
           <button
             type="button"

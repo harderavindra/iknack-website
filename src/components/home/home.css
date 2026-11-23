@@ -7,7 +7,7 @@
 
 .home-page {
   position: relative;
-  font-family: var(--font-poppins), "Poppins", Arial, sans-serif;
+  font-family: var(--font-brand), Arial, sans-serif;
   font-weight: 400;
 }
 
@@ -36,19 +36,67 @@ a.spline-watermark {
   left: 0;
 }
 
-.hero-section iframe {
-  display: block;
-  border: 0;
-}
-
-.hero-section canvas {
+/* Home banner slider (fills the hero) */
+.home-banner {
   position: absolute;
   inset: 0;
-  display: block;
+  overflow: hidden;
+  background: #000;
+}
+
+.home-banner-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.home-banner-slide.is-active {
+  opacity: 1;
+}
+
+.home-banner-slide video {
   width: 100%;
   height: 100%;
-  touch-action: pan-y; /* vertical swipes scroll the page on touch devices */
-  cursor: crosshair;
+  object-fit: cover;
+}
+
+.home-banner-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.35) 100%);
+  pointer-events: none;
+}
+
+.home-banner-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 20;
+}
+
+.home-banner-dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  transition: width 0.3s ease, background 0.3s ease;
+  cursor: pointer;
+}
+
+.home-banner-dots button.is-active {
+  width: 28px;
+  background: #29abe2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-banner-slide {
+    transition: none;
+  }
 }
 
 
@@ -89,7 +137,7 @@ a.spline-watermark {
 
 .intro-highlights ul {
   font-size: 80px;
-  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-family: var(--font-brand), sans-serif;
   font-weight: 800;
   text-transform: uppercase;
   list-style: none;
@@ -104,13 +152,16 @@ a.spline-watermark {
   display: flex;
   flex-direction: column;
   align-self: flex-start;
+  line-height: 1;
 }
 
 .intro-highlights span {
-  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-family: var(--font-brand), sans-serif;
   font-size: 34px;
   text-transform: lowercase;
   font-weight: 300;
+  line-height: 1.2;
+  margin-top: 12px;
   display: flex;
   justify-content: flex-end;
 }
@@ -141,6 +192,12 @@ a.spline-watermark {
   flex-direction: column;
   z-index: 100;
   pointer-events: none;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.moving-shape-i.has-backing {
+  background-color: #000;
 }
 
 .moving-shape-i .shape-top,
@@ -172,184 +229,51 @@ a.spline-watermark {
   position: sticky;
   top: 0px;
   padding-top: 20vh;
-  padding-bottom: 20vh;
-  font-family: var(--font-roboto), "Roboto", sans-serif;
+  padding-bottom: 0;
+  font-family: var(--font-brand), sans-serif;
 }
 
 .story-content .line-one span {
   display: inline-block;
 }
 
-/* Services */
-.services-section video,
-.services-section img {
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
+/* Service grid (links to /services#slug) */
+.service-grid-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 36px 1.5rem 40px;
 }
 
-.services-section {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid #ffffff33;
+  border-left: 1px solid #ffffff33;
+  list-style: none;
 }
 
-.services-section div.slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+.service-grid li {
+  border-right: 1px solid #ffffff33;
+  border-bottom: 1px solid #ffffff33;
 }
 
-.services-section div.slide:after {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-}
-
-.slide-1 {
-  opacity: 1;
-  transform: rotate(0deg);
-}
-
-.slide-2,
-.slide-3,
-.slide-4,
-.slide-5 {
-  opacity: 0;
-  transform: rotate(45deg);
-}
-
-/* Simple horizontal peek carousel — cards sit in a row and .parent is translated
-   (via GSAP x tweens, see HomeContent.tsx) so each one centers in turn, instead of
-   spinning around a rotated wheel. */
-.card-rotation {
-  position: absolute;
-  bottom: 0;
-  height: 400px;
-  width: 100%;
+.service-grid a {
   display: flex;
   align-items: center;
-  overflow-x: hidden;
-  overflow-y: visible;
-}
-
-.parent {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  height: 400px;
-  z-index: 99999;
-}
-
-.child {
-  position: relative;
-  flex: 0 0 300px;
-  width: 300px;
-  height: 400px;
-  background: #ffffff00;
+  justify-content: center;
+  min-height: 220px;
+  padding: 2rem;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 400;
   color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0px;
-  transform: scale(0.92) translateY(40%);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-.child video,
-.child img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  opacity: 1;
-  border-radius: 20px 20px 0 0;
-  overflow: hidden;
-}
-
-.current-1 .c1,
-.current-2 .c2,
-.current-3 .c3,
-.current-4 .c4,
-.current-5 .c5 {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
-
-.services-section .child .content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
-  opacity: 0;
-}
-
-.services-section .child .content h2 {
-  font-size: 2.8rem;
-  text-align: left;
-  font-family: var(--font-roboto), "Roboto", sans-serif;
-  text-indent: 9px;
-  letter-spacing: 4px;
-  color: #ffffff;
-  position: relative;
-  white-space: nowrap;
-}
-
-.services-section .child .content ul {
-  font-size: 1.25rem;
-  list-style: disc;
-  list-style-position: inside;
-  color: #ffffff;
-  text-align: left;
-}
-
-.services-section .child .content li {
-  margin: 4px 0;
-}
-
-.services-section .child .content li::marker {
-  color: #ffffff;
-}
-
-.current-1 .c1 video,
-.current-2 .c2 video,
-.current-3 .c3 video,
-.current-4 .c4 video,
-.current-5 .c5 video,
-.current-1 .c1 img,
-.current-2 .c2 img,
-.current-3 .c3 img,
-.current-4 .c4 img,
-.current-5 .c5 img {
-  opacity: 0;
-}
-
-.current-1 .c1 .content,
-.current-2 .c2 .content,
-.current-3 .c3 .content,
-.current-4 .c4 .content,
-.current-5 .c5 .content {
-  opacity: 1;
-}
-
-.child .content,
-.child video {
-  transition: opacity 0.5s ease;
+.service-grid a:hover,
+.service-grid a:focus-visible {
+  background: #29abe21a;
+  color: #29abe2;
 }
 
 /* Why us */
@@ -388,14 +312,12 @@ a.spline-watermark {
   align-items: center;
   gap: 80px;
   border-top: 1px solid #ffffff66;
-  background: #000000;
-  box-shadow: 0px -30px 30px #000000;
 }
 
 
 .why-us-content .why-list .why-item h4 {
   flex: 1 1 0%;
-  font-size: 42px;
+  font-size: 36px;
   margin-bottom: 10px;
   color: #fff;
   font-weight: 400;
@@ -410,15 +332,9 @@ a.spline-watermark {
   color: #fff;
 }
 
-.why-item:nth-child(1) { z-index: 1; }
-.why-item:nth-child(2) { z-index: 2; }
-.why-item:nth-child(3) { z-index: 3; }
-.why-item:nth-child(4) { z-index: 4; }
-.why-item:nth-child(5) { z-index: 5; }
-
 /* ============================================================
    Added — not in the reference. The reference had no mobile
-   breakpoints; without them the fixed 1928px card wheel, 80px/
+   breakpoints; without them the 80px/
    50vw intro columns, and 6rem story text overflow badly on
    small screens. Scales things down without touching the
    ported desktop values above.
@@ -463,11 +379,17 @@ a.spline-watermark {
   .story-section .story-content {
     position: static;
     font-size: 2.5rem;
-    padding: 4rem 0;
+    padding: 4rem 0 0;
   }
 
-  .services-section .child .content h2 {
-    font-size: 1.75rem;
+  .service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .service-grid a {
+    min-height: 140px;
+    padding: 1.25rem;
+    font-size: 20px;
   }
 
   .why-us-content .why-list .why-item {

@@ -33,9 +33,9 @@ export default function ServiceRow({ service }: { service: ServiceCategory }) {
   }, []);
 
   return (
-    <div className="grid gap-8 py-16 first:pt-0 lg:grid-cols-[1fr_320px] lg:items-start lg:gap-12">
+    <div id={service.slug} className="scroll-mt-32 grid gap-8 py-16 first:pt-0 lg:grid-cols-[1fr_320px] lg:items-start lg:gap-12">
       <div>
-        <h2 className="text-3xl font-bold text-white md:text-4xl">{service.title}</h2>
+        <h2 className="text-3xl font-bold text-white md:text-3xl">{service.title}</h2>
         <h3 className="mt-2 text-base font-light italic text-neutral-500">{service.subtitle}</h3>
         <p className="mt-6 max-w-2xl leading-relaxed text-neutral-300">{service.description}</p>
         <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

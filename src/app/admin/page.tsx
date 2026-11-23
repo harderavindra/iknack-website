@@ -3,6 +3,8 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { listCategoriesAdmin, listItems } from "@/lib/data/work";
 import { listServicesAdmin } from "@/lib/data/services";
+import { getHomeBannerSlides } from "@/lib/data/home-banner";
+import { getPageHero } from "@/lib/data/page-heroes";
 import { signOutAction } from "./actions";
 
 export default async function AdminDashboardPage() {
@@ -27,6 +29,10 @@ export default async function AdminDashboardPage() {
   const services = await listServicesAdmin();
   const servicesThumbVideo = services[0]?.video;
 
+  const bannerSlides = await getHomeBannerSlides();
+  const bannerThumb = bannerSlides[0];
+  const pageHeroThumb = await getPageHero("services");
+
   return (
     <div className="admin-shell">
       <div className="admin-header">
@@ -40,6 +46,40 @@ export default async function AdminDashboardPage() {
       </div>
 
       <div className="admin-dashboard-grid">
+        <Link href="/admin/home-banner" className="admin-dashboard-card">
+          <div className="admin-dashboard-card-thumb">
+            {bannerThumb?.type === "image" ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={bannerThumb.src} alt="" />
+            ) : bannerThumb ? (
+              <video src={bannerThumb.src} poster={bannerThumb.poster} muted preload="metadata" />
+            ) : (
+              <span className="admin-dashboard-card-placeholder" />
+            )}
+          </div>
+          <div className="admin-dashboard-card-body">
+            <h2>Home Banner</h2>
+            <p>{bannerSlides.length} slides</p>
+            <span className="admin-dashboard-card-cta">Manage →</span>
+          </div>
+        </Link>
+
+        <Link href="/admin/page-heroes" className="admin-dashboard-card">
+          <div className="admin-dashboard-card-thumb">
+            {pageHeroThumb.type === "image" ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={pageHeroThumb.src} alt="" />
+            ) : (
+              <video src={pageHeroThumb.src} poster={pageHeroThumb.poster} muted preload="metadata" />
+            )}
+          </div>
+          <div className="admin-dashboard-card-body">
+            <h2>Page Heroes</h2>
+            <p>Services, Our Work</p>
+            <span className="admin-dashboard-card-cta">Manage →</span>
+          </div>
+        </Link>
+
         <Link href="/admin/our-work" className="admin-dashboard-card">
           <div className="admin-dashboard-card-thumb">
             {ourWorkThumb ? (

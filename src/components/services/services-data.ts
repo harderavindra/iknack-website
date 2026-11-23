@@ -1,4 +1,5 @@
 export type ServiceCategory = {
+  slug?: string;
   title: string;
   subtitle?: string;
   description: string;
