@@ -2,7 +2,7 @@ import Image from "next/image";
 import HeroVideo from "@/components/services/HeroVideo";
 import type { PageHeroMedia } from "@/lib/data/page-heroes";
 
-// Full-width hero shared by /services and /our-work, so both are the same size.
+// Full-width hero shared by /about, /services and /our-work, so they are all the same size.
 export default function PageHero({ media }: { media: PageHeroMedia }) {
   return (
     <section className="relative h-[85vh] min-h-[560px] w-full overflow-hidden bg-background">

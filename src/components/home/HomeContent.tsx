@@ -6,7 +6,20 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "./home.css";
-import { INTRO_TEXT, INTRO_HIGHLIGHTS, WHY_US_HOME } from "./home-data";
+import { INTRO_TITLE, INTRO_PARAGRAPHS, INTRO_HIGHLIGHTS, WHY_US_HOME } from "./home-data";
+
+// Each word is its own span so the scroll animation can colour them one by one.
+function Words({ text }: { text: string }) {
+  const words = text.split(" ");
+  return words.flatMap((word, i) => {
+    const span = (
+      <span className="word" key={i}>
+        {word}
+      </span>
+    );
+    return i < words.length - 1 ? [span, " "] : [span];
+  });
+}
 import HomeBanner from "./HomeBanner";
 import type { HomeBannerSlide } from "@/lib/data/home-banner";
 import type { ServiceLink } from "@/lib/data/services";
@@ -56,8 +69,8 @@ export default function HomeContent({
 
       const icon = root.querySelector<HTMLDivElement>(".moving-shape-i");
       if (icon) {
-        const ICON_WIDTH = 10;
-        const ICON_HEIGHT = 60;
+        const ICON_WIDTH = 15;
+        const ICON_HEIGHT = 56;
         // The shape lands exactly on the faded "I" of the first highlight word, at the moment
         // that word reaches the middle of the screen — so it follows the intro layout/spacing.
         const getInitialBox = () => {
@@ -76,6 +89,15 @@ export default function HomeContent({
         gsap.to(icon, {
           width: `${ICON_WIDTH}px`,
           height: `${ICON_HEIGHT}px`,
+          ease: "none",
+          scrollTrigger: { trigger: ".hero-section", start: "top top", end: "25% top", scrub: 1 },
+        });
+        // Blue dot becomes a fixed 14×14 square (width comes from the 14px icon). It's a flex
+        // child with `flex: 1` (basis 0), so its size is set via flex-basis, not height.
+        gsap.to(".shape-top", {
+          flexBasis: "14px",
+          flexGrow: 0,
+          flexShrink: 0,
           ease: "none",
           scrollTrigger: { trigger: ".hero-section", start: "top top", end: "25% top", scrub: 1 },
         });
@@ -111,7 +133,7 @@ export default function HomeContent({
       });
 
       gsap.to(".shape-bottom", {
-        minHeight: "38px", // white stem ≈ ⅝ of the 60px mark, leaving room for the blue dot
+        minHeight: "36px", // white stem: 56px mark − 14px blue square − ~6px gap
         ease: "none",
         scrollTrigger: { trigger: ".intro-section", start: "-200vh top", end: "-180vh top", scrub: 1 },
       });
@@ -135,7 +157,7 @@ export default function HomeContent({
         ease: "none",
         scrollTrigger: { trigger: LAST_WORD, start: "top 50%", end: "top 42%", scrub: 1 },
       });
-      // The "i" sits at mid-screen. Its exit starts as the last word (INCLUSIVE) passes it and is
+      // The "i" sits at mid-screen. Its exit starts as the last word (INTUITIVE) passes it and is
       // done quickly, over the dark intro background, before the story section arrives.
       gsap.to(".shape-top", {
         borderRadius: "20px",
@@ -185,7 +207,16 @@ export default function HomeContent({
       });
     }, root);
 
+    // The "i" lands on the faded "I" of the first highlight word, measured from the page. Web
+    // fonts (Poppins) can finish loading after that measurement and move the letter, so measure
+    // again once they're ready.
+    let disposed = false;
+    document.fonts?.ready.then(() => {
+      if (!disposed) ScrollTrigger.refresh();
+    });
+
     return () => {
+      disposed = true;
       ctx.revert();
       gsap.ticker.remove(raf);
       unsubscribeScroll();
@@ -213,14 +244,14 @@ export default function HomeContent({
         <div className="intro-content">
           <div className="intro-text">
             <div className="intro-text-content">
-              {INTRO_TEXT.split(" ").flatMap((word, i, words) => {
-                const span = (
-                  <span className="word" key={i}>
-                    {word}
-                  </span>
-                );
-                return i < words.length - 1 ? [span, " "] : [span];
-              })}
+              <h2 className="intro-title">
+                <Words text={INTRO_TITLE} />
+              </h2>
+              {INTRO_PARAGRAPHS.map((paragraph) => (
+                <p key={paragraph}>
+                  <Words text={paragraph} />
+                </p>
+              ))}
             </div>
           </div>
           <div className="intro-highlights">

@@ -1,6 +1,6 @@
 import { getDb } from "@/lib/mongodb";
 
-export type PageHeroKey = "services" | "our-work";
+export type PageHeroKey = "about" | "services" | "our-work";
 
 export type PageHeroMedia = {
   type: "video" | "image";
@@ -9,12 +9,14 @@ export type PageHeroMedia = {
 };
 
 export const PAGE_HEROES: { key: PageHeroKey; label: string; path: string }[] = [
+  { key: "about", label: "About us", path: "/about" },
   { key: "services", label: "Services", path: "/services" },
   { key: "our-work", label: "Our Work", path: "/our-work" },
 ];
 
 // Shown until an admin uploads media for that page.
 export const DEFAULT_PAGE_HEROES: Record<PageHeroKey, PageHeroMedia> = {
+  about: { type: "image", src: "/aboutus-hero-img.webp" },
   services: { type: "video", src: "/service/service-v1.mp4" },
   "our-work": { type: "video", src: "/service-hero-video.mp4" },
 };

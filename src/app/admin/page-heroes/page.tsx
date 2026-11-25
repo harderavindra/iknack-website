@@ -18,7 +18,7 @@ export default async function AdminPageHeroesPage({ searchParams }: PageProps<"/
           <Link href="/admin">← Admin</Link>
           <h1>Page Heroes</h1>
           <p>
-            One full-width video or image at the top of each page. Leave a slot empty to show the default video.
+            One full-width video or image at the top of each page. Leave a slot empty to show the default media.
           </p>
           {params.saved && <p style={{ color: "#4ade80" }}>Saved.</p>}
         </div>

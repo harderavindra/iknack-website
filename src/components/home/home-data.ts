@@ -1,12 +1,16 @@
-export const INTRO_TEXT =
-  "iKnack is a dynamic advertising and creative agency with a proven track record of delivering impactful brand solutions. We combine strategy, creativity, and production to create work that stands out.";
+export const INTRO_TITLE = "Where ideas become experiences.";
+
+export const INTRO_PARAGRAPHS = [
+  "iKnack brings together strategy, creativity, production and technology to create work that captures attention, builds meaningful connections and drives growth.",
+  "From brand identities and films to digital campaigns and experiential activations, every project is crafted with purpose and precision.",
+];
 
 export const INTRO_HIGHLIGHTS = [
   { title: "Integrated", sub: "in thinking." },
   { title: "Innovative", sub: "in execution." },
-  { title: "Intuitive", sub: "in design." },
   { title: "Interactive", sub: "in engagement." },
   { title: "Inclusive", sub: "in vision." },
+  { title: "Intuitive", sub: "in design." },
 ];
 
 export const WHY_US_HOME = [

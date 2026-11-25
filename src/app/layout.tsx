@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import { Geist_Mono, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -14,6 +14,14 @@ const brandFont = localFont({
     { path: "../fonts/Fortheloveoffonts-Light.otf", weight: "300", style: "normal" },
     { path: "../fonts/Fortheloveoffonts-Bold.otf", weight: "700", style: "normal" },
   ],
+  display: "swap",
+});
+
+// Only used for the home page highlight words (INTEGRATED, INNOVATIVE…).
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["300", "800"],
   display: "swap",
 });
 
@@ -35,7 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${brandFont.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${brandFont.variable} ${poppins.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-white">
         <ScrollTopOnLoad />

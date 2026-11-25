@@ -9,15 +9,15 @@ export type ServiceCategory = {
 
 export const SERVICE_CATEGORIES: ServiceCategory[] = [
   {
-    title: "Creative & Branding",
+    title: "Creative and Branding",
     subtitle: "Brands with character, identities with impact",
     description:
       "We create visual identities, campaign creatives and brand systems that strengthen recognition, consistency and recall.",
-    links: ["Brand Identity Design", "Logo Design", "Campaign Creatives", "Print & OOH Design", "Visual Systems & Guidelines"],
+    links: ["Brand Identity Design", "Logo Design", "Campaign Creatives", "Print and OOH Design", "Visual Systems and Guidelines"],
     video: "/service/service-thumb-v-1.mp4",
   },
   {
-    title: "Films & AV Production",
+    title: "Films and AV Production",
     subtitle: "Stories that inspire, content that connects",
     description:
       "From brand films and corporate narratives to campaign content and product showcases, every production is crafted to engage audiences and elevate brands.",
@@ -25,7 +25,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     video: "/service/service-thumb-v-2.mp4",
   },
   {
-    title: "Digital & Social Media",
+    title: "Digital and Social Media",
     subtitle: "Conversations that matter",
     description:
       "Strategic content, platform-first thinking and performance-driven execution help brands stay relevant, visible and connected.",
@@ -33,7 +33,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     video: "/service/service-thumb-v-3.mp4",
   },
   {
-    title: "AI & Innovation",
+    title: "AI and Innovation",
     subtitle: "Creativity powered by possibility",
     description:
       "By combining creative expertise with emerging technologies, we create smarter workflows, richer experiences and future-ready solutions.",
@@ -41,7 +41,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     video: "/service/service-thumb-v-4.mp4",
   },
   {
-    title: "Experiential & installations",
+    title: "Experiential and installations",
     subtitle: "Experiences that bring brands to life",
     description:
       "Immersive activations and memorable interactions create meaningful connections between brands and audiences.",
@@ -49,7 +49,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     video: "/service/service-thumb-v-5.mp4",
   },
   {
-    title: "Photography & Creative Direction",
+    title: "Photography and Creative Direction",
     subtitle: "Every frame tells a story.",
     description:
       "Thoughtfully crafted visuals strengthen brand perception, communicate value and create lasting impressions.",

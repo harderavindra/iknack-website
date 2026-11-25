@@ -75,7 +75,7 @@ export default async function AdminDashboardPage() {
           </div>
           <div className="admin-dashboard-card-body">
             <h2>Page Heroes</h2>
-            <p>Services, Our Work</p>
+            <p>About us, Services, Our Work</p>
             <span className="admin-dashboard-card-cta">Manage →</span>
           </div>
         </Link>
