@@ -16,9 +16,9 @@ type HomeBannerDoc = {
 
 // Shown until an admin saves the banner for the first time (or if a slot is left empty).
 export const DEFAULT_HOME_BANNER_SLIDES: HomeBannerSlide[] = [
-  { type: "video", src: "/iknack-home-v-1.mp4", poster: "/home-video-img-1.webp" },
-  { type: "video", src: "/final-4-mahindra-ganesha.mp4", poster: "/home-video-img-3.webp" },
-  { type: "video", src: "/iknack-home-v-4.mp4", poster: "/home-video-img-4.webp" },
+  { type: "video", src: "/final-4-mahindra-ganesha.mp4" },
+  { type: "video", src: "/iknack-vid-2.mp4" },
+  { type: "video", src: "/service-hero-video.mp4" },
 ];
 
 async function bannerCollection() {
