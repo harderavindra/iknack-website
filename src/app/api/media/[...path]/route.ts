@@ -11,6 +11,11 @@ const SIGNED_URL_TTL_MS = 24 * 60 * 60 * 1000; // signature valid 24h…
 const CDN_CACHE_SECONDS = 12 * 60 * 60; // …CDN reuses the redirect for 12h (always inside the signature)
 const BROWSER_CACHE_SECONDS = 60 * 60;
 
+// Uploaded objects never change (UUID filenames), but GCS serves objects without a
+// Cache-Control as "private, max-age=0". Browsers then re-check a looping video with GCS on
+// every loop (the stream of 304/206 requests). Stamp a long cache header on first use.
+const OBJECT_CACHE_CONTROL = "public, max-age=31536000, immutable";
+
 async function redirectToSignedUrl(path: string[]) {
   const objectPath = path.join("/");
 
@@ -24,8 +29,19 @@ async function redirectToSignedUrl(path: string[]) {
 
   let signedUrl: string;
   try {
-    const [exists] = await file.exists();
-    if (!exists) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const metadata = await file
+      .getMetadata()
+      .then(([m]) => m)
+      .catch((err: { code?: number }) => {
+        if (err.code === 404) return null;
+        throw err;
+      });
+    if (!metadata) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    if (metadata.cacheControl !== OBJECT_CACHE_CONTROL) {
+      await file.setMetadata({ cacheControl: OBJECT_CACHE_CONTROL }).catch((err) => {
+        console.error("Failed to set Cache-Control on", objectPath, err);
+      });
+    }
     [signedUrl] = await file.getSignedUrl({
       version: "v4",
       action: "read",
