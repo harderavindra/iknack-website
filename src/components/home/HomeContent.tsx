@@ -170,6 +170,28 @@ export default function HomeContent({
         scrollTrigger: { trigger: LAST_WORD, start: "top 36%", end: "top 30%", scrub: 1 },
       });
 
+      gsap.utils.toArray<HTMLElement>(".why-item").forEach((item) => {
+        gsap.from(item, {
+          y: 40,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      });
+    }, root);
+
+    const mm = gsap.matchMedia(root);
+
+    // "Stories Moves / Brands Beyond the Ordinary". Desktop: revealed step by step while the
+    // tall section scrolls under its sticky text. Mobile: the section is short and not sticky,
+    // so those scroll positions would only be reached after the text has left the screen —
+    // reveal it once as it comes into view instead.
+    mm.add("(min-width: 901px)", () => {
       gsap.to(".story-section .text-story", {
         opacity: 1,
         ease: "none",
@@ -191,21 +213,45 @@ export default function HomeContent({
         ease: "none",
         scrollTrigger: { trigger: ".story-section", start: "30% top", end: "40% top", scrub: 1 },
       });
+    });
 
-      gsap.utils.toArray<HTMLElement>(".why-item").forEach((item) => {
-        gsap.from(item, {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: item,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
+    mm.add("(max-width: 900px)", () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(".story-section .text-story", { opacity: 1, color: "#29abe2" });
+        gsap.set(".story-section .text-moves", { opacity: 1, width: "auto" });
+        gsap.set(".story-section .line-two", { opacity: 1 });
+        return;
+      }
+      gsap
+        .timeline({ scrollTrigger: { trigger: ".story-section .story-content", start: "top 80%" } })
+        .to(".story-section .text-story", { opacity: 1, duration: 0.5, ease: "power2.out" })
+        .to(".story-section .text-moves", { opacity: 1, width: "auto", duration: 0.6, ease: "power2.out" })
+        .to(".story-section .text-story", { color: "#29abe2", duration: 0.4 }, "<")
+        .to(".story-section .line-two", { opacity: 1, duration: 0.6, ease: "power2.out" }, "-=0.2");
+    });
+    // Mobile: the moving "i" layer is hidden, so each highlight word gets its own brand "i"
+    // that builds itself as the word scrolls into view — dot drops in, stem grows, then the
+    // rest of the word and its subtitle follow.
+    mm.add("(max-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
+      gsap.utils.toArray<HTMLElement>(".intro-highlights li").forEach((li) => {
+        gsap
+          .timeline({
+            scrollTrigger: { trigger: li, start: "top 85%", toggleActions: "play none none reverse" },
+          })
+          .from(li.querySelector(".hl-mark-stem"), { scaleY: 0, transformOrigin: "50% 100%", duration: 0.45, ease: "power3.out" })
+          .from(li.querySelector(".hl-mark-dot"), { y: -24, opacity: 0, duration: 0.4, ease: "back.out(2.5)" }, "-=0.15")
+          .from(li.querySelector(".hl-rest"), { x: -12, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.2")
+          .from(li.querySelector(".hl-sub"), { y: 10, opacity: 0, duration: 0.45, ease: "power2.out" }, "-=0.3");
+
+        // Light up this word's "i" while the word is in the middle band of the screen.
+        ScrollTrigger.create({
+          trigger: li,
+          start: "top 60%",
+          end: "bottom 40%",
+          toggleClass: { targets: li, className: "is-active" },
         });
       });
-    }, root);
+    });
 
     // The "i" lands on the faded "I" of the first highlight word, measured from the page. Web
     // fonts (Poppins) can finish loading after that measurement and move the letter, so measure
@@ -217,6 +263,7 @@ export default function HomeContent({
 
     return () => {
       disposed = true;
+      mm.revert();
       ctx.revert();
       gsap.ticker.remove(raf);
       unsubscribeScroll();
@@ -259,10 +306,15 @@ export default function HomeContent({
               {INTRO_HIGHLIGHTS.map((h) => (
                 <li key={h.title}>
                   <div className="hl-title">
+                    {/* Mobile only: the brand "i" (blue dot + white stem) stands in for the letter. */}
+                    <span className="hl-mark" aria-hidden="true">
+                      <span className="hl-mark-dot" />
+                      <span className="hl-mark-stem" />
+                    </span>
                     <em className="hl-initial">{h.title.charAt(0)}</em>
-                    {h.title.slice(1)}
+                    <span className="hl-rest">{h.title.slice(1)}</span>
                   </div>
-                  <span>{h.sub}</span>
+                  <span className="hl-sub">{h.sub}</span>
                 </li>
               ))}
             </ul>

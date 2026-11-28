@@ -30,6 +30,7 @@ a.spline-watermark {
 /* Hero */
 .hero-section {
   height: 100vh;
+  height: 100svh; /* mobile: exclude the browser toolbar so the banner fits the screen */
   width: 100%;
   position: absolute;
   top: 0;
@@ -168,7 +169,12 @@ a.spline-watermark {
   opacity: 0.2;
 }
 
-.intro-highlights span {
+/* Mobile-only brand "i" mark (see @media below). */
+.intro-highlights .hl-mark {
+  display: none;
+}
+
+.intro-highlights .hl-sub {
   font-family: var(--font-poppins), "Poppins", sans-serif;
   font-size: 34px;
   text-transform: lowercase;
@@ -393,6 +399,13 @@ a.spline-watermark {
     display: none;
   }
 
+  /* On desktop the sticky 100vh .imoving-area reserves the banner's space (the banner is
+     absolutely positioned over it). With that layer hidden on mobile, the banner must take
+     its own space — otherwise the intro text renders on top of the banner. */
+  .hero-section {
+    position: relative;
+  }
+
   .intro-content {
     flex-direction: column;
     min-height: 0;
@@ -412,13 +425,66 @@ a.spline-watermark {
   }
 
   .intro-highlights ul {
-    font-size: 34px;
+    /* Scale with the screen so the longest word (INTERACTIVE ≈ 8.4em incl. the "i" mark)
+       fills the width without overflowing. */
+    font-size: clamp(34px, calc((100vw - 56px) / 8.4), 72px);
     gap: 2rem;
     padding: 0 0 4rem;
   }
 
-  .intro-highlights span {
-    font-size: 22px;
+  .intro-highlights .hl-sub {
+    font-size: clamp(20px, 5.6vw, 34px);
+  }
+
+  /* The brand "i" replaces the faded letter: blue dot + white stem, sized to the cap height,
+     sitting on the baseline. Shapes mirror the desktop moving "i". */
+  /* inline-block with only block children → its baseline is its bottom edge, so the mark
+     sits exactly on the text baseline and is cap-height tall. */
+  .intro-highlights .hl-mark {
+    display: inline-block;
+    width: 0.2em;
+    margin-right: 0.08em;
+    vertical-align: baseline;
+    opacity: 0.2; /* faded like the desktop "I" until its word is in focus */
+    transition: opacity 0.4s ease;
+  }
+
+  .intro-highlights li.is-active .hl-mark {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro-highlights .hl-mark {
+      opacity: 1; /* no scroll effects: just show the marks */
+    }
+  }
+
+  .intro-highlights .hl-mark-dot,
+  .intro-highlights .hl-mark-stem {
+    display: block;
+  }
+
+  .intro-highlights .hl-mark-dot {
+    height: 0.2em;
+    margin-bottom: 0.06em;
+    background: #29abe2;
+    border-radius: 0 0 0 0.2em;
+  }
+
+  .intro-highlights .hl-mark-stem {
+    height: 0.46em; /* 0.72em cap height − dot − gap */
+    background: #fff;
+    border-radius: 0.2em 0 0 0;
+  }
+
+  /* Keep the real letter for screen readers / copy-paste, hide it visually. */
+  .intro-highlights .hl-initial {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .story-section {

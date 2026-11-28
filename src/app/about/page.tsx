@@ -97,10 +97,10 @@ export default async function AboutPage() {
                 {facts.map((fact, i) => (
                   <div
                     key={fact.label}
-                    className={`flex min-w-0 flex-col-reverse justify-end gap-3 p-6 md:p-8 ${i % 2 === 0 ? "border-r border-white/10" : ""} ${i < 2 ? "border-b border-white/10" : ""}`}
+                    className={`flex min-w-0 flex-col-reverse justify-end gap-3 p-5 sm:p-6 md:p-8 ${i % 2 === 0 ? "border-r border-white/10" : ""} ${i < 2 ? "border-b border-white/10" : ""}`}
                   >
                     <dt className="text-xs uppercase tracking-[0.2em] text-neutral-500">{fact.label}</dt>
-                    <dd className="text-3xl font-bold leading-none text-sky-400 lg:text-4xl">{fact.value}</dd>
+                    <dd className="text-2xl font-bold leading-none text-sky-400 sm:text-3xl lg:text-4xl">{fact.value}</dd>
                   </div>
                 ))}
               </dl>
