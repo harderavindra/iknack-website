@@ -4,7 +4,9 @@ import { getPageHero } from "@/lib/data/page-heroes";
 import CategoryRow from "@/components/our-work/CategoryRow";
 import { getWorkCategoriesForDisplay } from "@/lib/data/work";
 
-export const dynamic = "force-dynamic";
+// Rendered once and served from the CDN; admin saves call revalidatePath() to refresh it
+// immediately, and this hourly revalidate is a safety net.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Our work (CMS preview)",

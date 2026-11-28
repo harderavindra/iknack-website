@@ -71,6 +71,7 @@ export async function createServiceAction(formData: FormData) {
   revalidatePath("/services-cms");
   revalidatePath("/services");
   revalidatePath("/");
+  revalidatePath("/about"); // shows the service count
   redirect("/admin/services");
 }
 
@@ -93,6 +94,7 @@ export async function updateServiceAction(formData: FormData) {
   revalidatePath("/services-cms");
   revalidatePath("/services");
   revalidatePath("/");
+  revalidatePath("/about"); // shows the service count
   redirect("/admin/services");
 }
 
@@ -108,5 +110,6 @@ export async function deleteServiceAction(formData: FormData) {
   revalidatePath("/services-cms");
   revalidatePath("/services");
   revalidatePath("/");
+  revalidatePath("/about"); // shows the service count
   redirect("/admin/services");
 }

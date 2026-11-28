@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { isUploadedMedia } from "@/lib/media-url";
 import type { WorkImage } from "./our-work-data";
 
 export default function LightboxImage({ image }: { image: WorkImage }) {
@@ -15,6 +16,7 @@ export default function LightboxImage({ image }: { image: WorkImage }) {
         alt={image.alt}
         fill
         sizes="90vw"
+        unoptimized={isUploadedMedia(image.full)}
         style={{ objectFit: "contain" }}
         priority
         onLoad={() => setLoaded(true)}

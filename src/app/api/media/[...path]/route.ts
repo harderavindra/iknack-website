@@ -1,35 +1,53 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Readable } from "node:stream";
 import { getBucket } from "@/lib/gcs";
 
-export async function GET(_req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-  const { path } = await params;
+// Uploaded media lives in a private, shared GCS bucket, so it can't be linked to directly.
+// Instead of streaming the bytes through this Vercel function (slow, costly, and no Range
+// support for video seeking), we redirect to a short-lived signed GCS URL: Google Cloud
+// serves the file itself — with Range/206, so videos seek and play on Safari/iOS.
+//
+// The redirect is cached on Vercel's CDN, so repeat requests don't invoke this function.
+const SIGNED_URL_TTL_MS = 24 * 60 * 60 * 1000; // signature valid 24h…
+const CDN_CACHE_SECONDS = 12 * 60 * 60; // …CDN reuses the redirect for 12h (always inside the signature)
+const BROWSER_CACHE_SECONDS = 60 * 60;
+
+async function redirectToSignedUrl(path: string[]) {
   const objectPath = path.join("/");
 
-  // Only ever serve objects under our own prefix — this route reads from a
-  // bucket shared with another project, so this check is the only thing
-  // stopping it from becoming an arbitrary-file-read proxy into their data.
+  // Only ever serve objects under our own prefix — the bucket is shared with another
+  // project, so this check is what stops this route signing URLs for their data.
   if (!objectPath.startsWith("iknack/")) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const file = getBucket().file(objectPath);
 
-  let metadata;
+  let signedUrl: string;
   try {
-    [metadata] = await file.getMetadata();
-  } catch {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const [exists] = await file.exists();
+    if (!exists) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    [signedUrl] = await file.getSignedUrl({
+      version: "v4",
+      action: "read",
+      expires: Date.now() + SIGNED_URL_TTL_MS,
+    });
+  } catch (err) {
+    console.error("Failed to sign media URL", objectPath, err);
+    return NextResponse.json({ error: "Media unavailable" }, { status: 502 });
   }
 
-  const nodeStream = file.createReadStream();
-  const webStream = Readable.toWeb(nodeStream) as ReadableStream<Uint8Array>;
+  const res = NextResponse.redirect(signedUrl, 302);
+  res.headers.set("Cache-Control", `public, max-age=${BROWSER_CACHE_SECONDS}`);
+  res.headers.set("Vercel-CDN-Cache-Control", `public, max-age=${CDN_CACHE_SECONDS}`);
+  return res;
+}
 
-  const headers: Record<string, string> = {
-    "Content-Type": metadata.contentType ?? "application/octet-stream",
-    "Cache-Control": "public, max-age=31536000, immutable",
-  };
-  if (metadata.size) headers["Content-Length"] = String(metadata.size);
+type Context = { params: Promise<{ path: string[] }> };
 
-  return new NextResponse(webStream, { headers });
+export async function GET(_req: NextRequest, { params }: Context) {
+  return redirectToSignedUrl((await params).path);
+}
+
+export async function HEAD(_req: NextRequest, { params }: Context) {
+  return redirectToSignedUrl((await params).path);
 }

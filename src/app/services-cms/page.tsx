@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import ServiceRow from "@/components/services/ServiceRow";
 import { getServicesForDisplay } from "@/lib/data/services";
 
-export const dynamic = "force-dynamic";
+// Rendered once and served from the CDN; admin saves call revalidatePath() to refresh it
+// immediately, and this hourly revalidate is a safety net.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Services (CMS preview)",

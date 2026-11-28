@@ -7,6 +7,8 @@ export default function LightboxVideo({ video }: { video: WorkVideo }) {
     <video
       className="lightbox-video"
       src={video.src}
+      poster={video.poster}
+      aria-label={video.alt}
       controls
       autoPlay
       playsInline

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { isUploadedMedia } from "@/lib/media-url";
 import HeroVideo from "@/components/services/HeroVideo";
 import type { PageHeroMedia } from "@/lib/data/page-heroes";
 
@@ -9,7 +10,15 @@ export default function PageHero({ media }: { media: PageHeroMedia }) {
       {media.type === "video" ? (
         <HeroVideo src={media.src} poster={media.poster} />
       ) : (
-        <Image src={media.src} alt="" fill priority sizes="100vw" className="object-cover" />
+        <Image
+          src={media.src}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          unoptimized={isUploadedMedia(media.src)}
+          className="object-cover"
+        />
       )}
     </section>
   );

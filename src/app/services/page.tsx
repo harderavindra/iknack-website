@@ -5,7 +5,9 @@ import { getPageHero } from "@/lib/data/page-heroes";
 import { getServicesForDisplay } from "@/lib/data/services";
 import FadeInOnScroll from "@/components/ui/FadeInOnScroll";
 
-export const dynamic = "force-dynamic";
+// Rendered once and served from the CDN; admin saves call revalidatePath() to refresh it
+// immediately, and this hourly revalidate is a safety net.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Services",

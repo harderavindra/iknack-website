@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { isUploadedMedia } from "@/lib/media-url";
 import type { WorkImage } from "./our-work-data";
 import CategoryThumbOverlay from "./CategoryThumbOverlay";
 
@@ -24,6 +25,7 @@ export default function CategoryThumb({
         alt={image.alt}
         fill
         sizes="450px"
+        unoptimized={isUploadedMedia(image.thumb)}
         style={{ objectFit: "cover" }}
         className={`work-thumb-img${loaded ? " work-thumb-img-loaded" : ""}`}
         onLoad={() => setLoaded(true)}

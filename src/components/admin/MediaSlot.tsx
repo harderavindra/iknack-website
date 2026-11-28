@@ -1,6 +1,22 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { resolveContentType, validateUpload } from "@/lib/upload-limits";
+
+// PUT with XMLHttpRequest (not fetch) so we can report upload progress.
+function putWithProgress(url: string, file: File, contentType: string, onProgress: (pct: number) => void) {
+  return new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", url);
+    xhr.setRequestHeader("Content-Type", contentType);
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () => (xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error("Upload to storage failed")));
+    xhr.onerror = () => reject(new Error("Upload to storage failed (network or CORS)"));
+    xhr.send(file);
+  });
+}
 
 export default function MediaSlot({
   name,
@@ -19,6 +35,7 @@ export default function MediaSlot({
 }) {
   const [value, setValue] = useState(defaultValue ?? "");
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const hiddenInputRef = useRef<HTMLInputElement>(null);
@@ -45,24 +62,29 @@ export default function MediaSlot({
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const contentType = resolveContentType(file);
+    const problem = validateUpload(contentType, file.size, kind);
+    if (problem) {
+      setError(problem);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+
     setUploading(true);
+    setProgress(0);
     setError(null);
 
     try {
       const urlRes = await fetch("/api/admin/upload-url", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filename: file.name, contentType: file.type, categorySlug }),
+        body: JSON.stringify({ filename: file.name, contentType, size: file.size, categorySlug }),
       });
-      if (!urlRes.ok) throw new Error("Could not get an upload URL");
-      const { uploadUrl, publicUrl } = await urlRes.json();
+      const body = await urlRes.json().catch(() => ({}));
+      if (!urlRes.ok) throw new Error(typeof body.error === "string" ? body.error : "Could not get an upload URL");
+      const { uploadUrl, publicUrl } = body;
 
-      const putRes = await fetch(uploadUrl, {
-        method: "PUT",
-        headers: { "Content-Type": file.type },
-        body: file,
-      });
-      if (!putRes.ok) throw new Error("Upload to storage failed");
+      await putWithProgress(uploadUrl, file, contentType, setProgress);
 
       setValue(publicUrl);
     } catch (err) {
@@ -93,7 +115,7 @@ export default function MediaSlot({
       ) : (
         <div className="admin-media-slot-upload">
           <input ref={fileInputRef} type="file" accept={kind === "video" ? "video/*" : "image/*"} onChange={handleFileChange} disabled={uploading} />
-          {uploading && <span className="admin-upload-status">Uploading…</span>}
+          {uploading && <span className="admin-upload-status">Uploading… {progress}%</span>}
           {error && <span className="admin-login-error">{error}</span>}
         </div>
       )}

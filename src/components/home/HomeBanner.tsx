@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { isUploadedMedia } from "@/lib/media-url";
 import type { HomeBannerSlide } from "@/lib/data/home-banner";
 
 const SLIDE_INTERVAL_MS = 3000;
@@ -52,7 +53,15 @@ export default function HomeBanner({ slides }: { slides: HomeBannerSlide[] }) {
               preload={i === 0 ? "auto" : "metadata"}
             />
           ) : (
-            <Image src={slide.src} alt="" fill sizes="100vw" priority={i === 0} style={{ objectFit: "cover" }} />
+            <Image
+              src={slide.src}
+              alt=""
+              fill
+              sizes="100vw"
+              priority={i === 0}
+              unoptimized={isUploadedMedia(slide.src)}
+              style={{ objectFit: "cover" }}
+            />
           )}
         </div>
       ))}
